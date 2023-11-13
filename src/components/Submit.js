@@ -1,34 +1,51 @@
 import React from "react";
-import base from "./airtable";
 import { Button as NextButton } from "@nextui-org/react";
 import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
 import Fade from "@mui/material//Fade";
 import Typography from "@mui/material/Typography";
 
+// Async function to create a record
 async function createRecord(fields) {
 	try {
-		const records = await base("Events").create([{ fields }]);
-
-		records.forEach(function (record) {
-			console.log(record.getId());
-		});
+	  const response = await fetch('/api/createRecord', {
+		method: 'POST',
+		headers: {
+		  'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(fields),
+	  });
+  
+	  if (response.status === 201 || response.status === 200) {
+		console.log('Record created successfully.');
+	  } else {
+		console.error('Failed to create record.'+fields);
+	  }
 	} catch (err) {
-		console.error(err);
+	  console.error(err);
 	}
-}
-
+  }
+  
+  // Async function to update a record
 async function updateRecord(eventID, fields) {
 	try {
-		const records = await base("Events").update([{ id: eventID, fields }]);
-
-		records.forEach(function () {
-			console.log("record updated");
-		});
+	  const response = await fetch(`/api/updateRecord/${eventID}`, {
+		method: 'PATCH',
+		headers: {
+		  'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({ fields }), // Only fields need to be sent
+	  });
+  
+	  if (response.status === 200) {
+		console.log('Record updated successfully.');
+	  } else {
+		console.error('Failed to update record.');
+	  }
 	} catch (err) {
-		console.error(err);
+	  console.error(err);
 	}
-}
+  }
 
 export default function Submit({
 	userSelected,
@@ -81,6 +98,8 @@ export default function Submit({
 		} else if (updateEvent) {
 			await updateRecord(eventID, fields);
 		}
+		console.log("Fields object:", fields);
+
 	};
 
 	const handleClose = () => {
