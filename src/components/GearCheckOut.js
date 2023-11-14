@@ -42,7 +42,8 @@ function renderAvailableGearItem({ gearItem, handleAddGear }) {
 	let image;
 
 	if (typeof gearItem.image !== "undefined") {
-		image = gearItem.image[0].url;
+		// image = gearItem.image[0].url;
+		image = gearItem.image;
 	} else {
 		image = "/imageIcon.png";
 	}
@@ -126,7 +127,7 @@ const AvailableGear = ({
 function renderChosenGearItem({ gearItem, handleRemoveGear }) {
 	let image;
 	if (typeof gearItem.image !== "undefined") {
-		image = gearItem.image[0].url;
+		image = gearItem.image;
 	} else {
 		image = "/imageIcon.png";
 	}

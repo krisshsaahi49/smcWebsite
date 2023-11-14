@@ -59,53 +59,108 @@ let gearList = [];
 let lendLevel = "";
 let roomTypes;
 
-function filterGear() {
+// function filterGear() {
+// 	if (userValues.some((element) => element.gearAccess === "Gear Level 4")) {
+// 		lendLevel = "Lending Level 4";
+// 	} else if (
+// 		userValues.some((element) => element.gearAccess === "Gear Level 3")
+// 	) {
+// 		lendLevel = "Lending Level 3";
+// 	} else if (
+// 		userValues.some((element) => element.gearAccess === "Gear Level 2")
+// 	) {
+// 		lendLevel = "Lending Level 2";
+// 	} else if (
+// 		userValues.some((element) => element.gearAccess === "Gear Level 1")
+// 	) {
+// 		lendLevel = "Lending Level 1";
+// 	} else {
+// 		return gearList;
+// 	}
+// 	base("Gear")
+// 		.select({
+// 			view: lendLevel,
+// 		})
+// 		.eachPage(
+// 			function page(records, fetchNextPage) {
+// 				// This function (`page`) will get called for each page of records.
+// 				console.log("LENDING LEVEL : ",lendLevel);
+// 				records.forEach(function (record) {
+// 					gearList.push({
+// 						name: record.get("Item"),
+// 						id: record.id,
+// 						eventStart: record.get("Events Start"),
+// 						eventEnd: record.get("Events End"),
+// 						eventStatus: record.get("Events Status"),
+// 						image: record.get("Image"),
+// 					});
+// 				});
+
+// 				fetchNextPage();
+// 			},
+// 			function done(err) {
+// 				if (err) {
+// 					console.error(err);
+// 				}
+// 			}
+// 		);
+// 	console.log("GEAR LIST : ",gearList)
+// 	return gearList;
+// }
+
+async function filterGear() {
+
 	if (userValues.some((element) => element.gearAccess === "Gear Level 4")) {
-		lendLevel = "Lending Level 4";
+		lendLevel = "https://api.baserow.io/api/database/rows/table/212627/?user_field_names=true&filters=%7B%22filter_type%22%3A%22AND%22%2C%22filters%22%3A%5B%7B%22type%22%3A%22multiple_select_has%22%2C%22field%22%3A%22Gear%20Lending%20Level%22%2C%22value%22%3A%221103884%22%7D%5D%2C%22groups%22%3A%5B%7B%22filter_type%22%3A%22OR%22%2C%22filters%22%3A%5B%7B%22type%22%3A%22multiple_select_has%22%2C%22field%22%3A%22Gear%20Lending%20Level%22%2C%22value%22%3A%221103884%22%7D%2C%7B%22type%22%3A%22multiple_select_has%22%2C%22field%22%3A%22Gear%20Lending%20Level%22%2C%22value%22%3A%221103885%22%7D%2C%7B%22type%22%3A%22multiple_select_has%22%2C%22field%22%3A%22Gear%20Lending%20Level%22%2C%22value%22%3A%221103886%22%7D%2C%7B%22type%22%3A%22multiple_select_has%22%2C%22field%22%3A%22Gear%20Lending%20Level%22%2C%22value%22%3A%221103887%22%7D%5D%2C%22groups%22%3A%5B%5D%7D%5D%7D";
 	} else if (
 		userValues.some((element) => element.gearAccess === "Gear Level 3")
 	) {
-		lendLevel = "Lending Level 3";
+		lendLevel = "https://api.baserow.io/api/database/rows/table/212627/?user_field_names=true&filters=%7B%22filter_type%22%3A%22AND%22%2C%22filters%22%3A%5B%7B%22type%22%3A%22multiple_select_has%22%2C%22field%22%3A%22Gear%20Lending%20Level%22%2C%22value%22%3A%221103884%22%7D%5D%2C%22groups%22%3A%5B%7B%22filter_type%22%3A%22OR%22%2C%22filters%22%3A%5B%7B%22type%22%3A%22multiple_select_has%22%2C%22field%22%3A%22Gear%20Lending%20Level%22%2C%22value%22%3A%221103884%22%7D%2C%7B%22type%22%3A%22multiple_select_has%22%2C%22field%22%3A%22Gear%20Lending%20Level%22%2C%22value%22%3A%221103885%22%7D%2C%7B%22type%22%3A%22multiple_select_has%22%2C%22field%22%3A%22Gear%20Lending%20Level%22%2C%22value%22%3A%221103886%22%7D%5D%2C%22groups%22%3A%5B%5D%7D%5D%7D";
 	} else if (
 		userValues.some((element) => element.gearAccess === "Gear Level 2")
 	) {
-		lendLevel = "Lending Level 2";
+		lendLevel = "https://api.baserow.io/api/database/rows/table/212627/?user_field_names=true&filters=%7B%22filter_type%22%3A%22AND%22%2C%22filters%22%3A%5B%7B%22type%22%3A%22multiple_select_has%22%2C%22field%22%3A%22Gear%20Lending%20Level%22%2C%22value%22%3A%221103884%22%7D%5D%2C%22groups%22%3A%5B%7B%22filter_type%22%3A%22OR%22%2C%22filters%22%3A%5B%7B%22type%22%3A%22multiple_select_has%22%2C%22field%22%3A%22Gear%20Lending%20Level%22%2C%22value%22%3A%221103884%22%7D%2C%7B%22type%22%3A%22multiple_select_has%22%2C%22field%22%3A%22Gear%20Lending%20Level%22%2C%22value%22%3A%221103885%22%7D%5D%2C%22groups%22%3A%5B%5D%7D%5D%7D";
 	} else if (
 		userValues.some((element) => element.gearAccess === "Gear Level 1")
 	) {
-		lendLevel = "Lending Level 1";
+		lendLevel = "https://api.baserow.io/api/database/rows/table/212627/?user_field_names=true&filters=%7B%22filter_type%22%3A%22AND%22%2C%22filters%22%3A%5B%7B%22type%22%3A%22single_select_equal%22%2C%22field%22%3A%22Availability%22%2C%22value%22%3A%221103796%22%7D%2C%7B%22type%22%3A%22multiple_select_has%22%2C%22field%22%3A%22Gear%20Lending%20Level%22%2C%22value%22%3A%221103884%22%7D%5D%2C%22groups%22%3A%5B%5D%7D";
 	} else {
 		return gearList;
 	}
-	base("Gear")
-		.select({
-			view: lendLevel,
-		})
-		.eachPage(
-			function page(records, fetchNextPage) {
-				// This function (`page`) will get called for each page of records.
 
-				records.forEach(function (record) {
-					gearList.push({
-						name: record.get("Item"),
-						id: record.id,
-						eventStart: record.get("Events Start"),
-						eventEnd: record.get("Events End"),
-						eventStatus: record.get("Events Status"),
-						image: record.get("Image"),
-					});
-				});
-
-				fetchNextPage();
-			},
-			function done(err) {
-				if (err) {
-					console.error(err);
-				}
-			}
-		);
-
-	return gearList;
+    try {
+        const response = await fetch(lendLevel,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Token HbYQMdxStJRoUvVLyjjegU0s86MIQY9F`
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+		console.log(data);
+        gearList = data.results.map(item => ({
+            id: item.id,
+            name: item['Item Description'],
+            manufacturer: item.Manufacturer && item.Manufacturer.map(m => m.value).join(', '),
+            model: item.Model,
+            category: item.Category && item.Category.value,
+            availability: item.Availability && item.Availability.value,
+            image: item.Image && item.Image[0] && item.Image[0].url,
+            // ... include other fields you need
+        }));
+		console.log("GEAR LIST : ",gearList)
+		if (Array.isArray(gearList)) {
+			console.log("gearList is an array.");
+		} else {
+			console.log("gearList is not an array.");
+		}
+        return gearList;
+    } catch (error) {
+        console.error('Error fetching gear list:', error);
+		return [];
+    }
 }
 
 function filterRoomType(disabled) {
@@ -141,7 +196,24 @@ function NameInput({
 	const [value, setValue] = React.useState("");
 	const [phoneVal, setPhoneVal] = React.useState(null);
 
-	const Initilize = useCallback(() => {
+	// const Initilize = useCallback(() => {
+	// 	userValues = [];
+	// 	gearList = [];
+	// 	roomTypes = [
+	// 		"Recording Studio 🎙️",
+	// 		"Rehearsal Spaces 🎧",
+	// 		"Edit & Collaboration Spaces 🎒",
+	// 	];
+	// 	setGearList(filterGear());
+	// 	setDisabledRoomTypes(filterRoomType(roomTypes));
+	// }, [setDisabledRoomTypes, setGearList]);
+
+	
+	// useEffect(() => {
+	// 	Initilize();
+	// }, [Initilize]);
+
+	const Initilize = useCallback(async () => {
 		userValues = [];
 		gearList = [];
 		roomTypes = [
@@ -149,13 +221,17 @@ function NameInput({
 			"Rehearsal Spaces 🎧",
 			"Edit & Collaboration Spaces 🎒",
 		];
-		setGearList(filterGear());
+		const resolvedGearList = await filterGear();
+		setGearList(resolvedGearList);
 		setDisabledRoomTypes(filterRoomType(roomTypes));
 	}, [setDisabledRoomTypes, setGearList]);
 
 	useEffect(() => {
-		Initilize();
+		(async () => {
+			await Initilize();
+		})();
 	}, [Initilize]);
+	
 
 	const handleRemoveName = (item) => {
 		userNameList.splice(userNameList.indexOf(item), 1);
@@ -200,6 +276,11 @@ function NameInput({
 		}
 	};
 
+	const updateGearList = async () => {
+		const resolvedGearList = await filterGear();
+		setGearList(resolvedGearList);
+	};
+
 	const handleChange = (newValue) => {
 		if (!value) {
 			return;
@@ -214,11 +295,12 @@ function NameInput({
 					handleClose();
 					userValues.push(newValue);
 					userNameList.push(newValue.name);
-
+					console.log('CHECK : ',newValue.name);
 					setUserCount(userNameList.length);
 					setUserSelected(userValues);
+					console.log('USER VALUES : ',userValues);
 					setDisabledRoomTypes(filterRoomType(roomTypes));
-					setGearList(filterGear());
+					updateGearList();
 
 				}
 			}
