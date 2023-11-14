@@ -52,7 +52,7 @@ const filterTemporallyUnavailableGear = (
 ) => {
 	const startTime = new Date(startTimeSelected);
 	const endTime = new Date(endTimeSelected);
-
+	console.log("Time Input",gearList);
 	return gearList.filter((gear) => {
 		if (!gear.eventStart || !gear.eventEnd) return true;
 
