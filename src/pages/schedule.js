@@ -10,7 +10,7 @@ export default function Schedule() {
 					title="Ready to go on record?"
 					subtitle="Please check out the calendar below before you book a slot at the Recording Studio"
 				/>
-				<IframeSlide src="https://airtable.com/embed/shr4OwRJGGOsC2lzf" />
+				<IframeSlide src="https://baserow.io/public/calendar/-af9KtWw2iHMgeYL7m6DJ6ulsagVQvs-TPTi8zzsenQ" />
 				<HeaderWithSubtitle
 					title="Need some practice?"
 					subtitle="Please check out the calendar below before you book a Rehearsal Space"

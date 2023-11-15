@@ -1,5 +1,5 @@
 import React from "react";
-import base from "../components/airtable";
+import baserow from "@/components/baserow";
 import NameInput from "../components/NameInput";
 import EventDetailsInput from "../components/EventDetailsInput";
 import TimeInput from "../components/TimeInput";
@@ -15,39 +15,79 @@ import Paper from "@mui/material/Paper";
 import FormLabel from "@mui/material/FormLabel";
 import { Container, Card, Row, Text } from "@nextui-org/react";
 
-const peopleAllInfo = [];
-const SMCpeople = [];
-const facultyList = [];
+let peopleAllInfo = [];
+let SMCpeople = [];
+let facultyList = [];
 
-base("SMC People")
-	.select({
-		view: "ALL PEOPLE",
-	})
-	.eachPage(
-		function page(records, fetchNextPage) {
-			records.forEach(function (record) {
-				SMCpeople.push({ name: record.get("Person"), id: record.id });
-				peopleAllInfo.push({
-					id: record.id,
-					name: record.get("Person"),
-					roomAccess: record.get("Room Access"),
-					gearAccess: record.get("Gear Access"),
-					phoneNum: record.get("Phone"),
-				});
-
-				if (record.get("Role").includes("Faculty/Staff 🎓")) {
-					facultyList.push({ name: record.get("Person"), id: record.id });
-				}
-			});
-
-			fetchNextPage();
-		},
-		function done(err) {
-			if (err) {
-				console.error(err);
-			}
-		}
-	);
+const fetchPeopleData = async () => {
+	try {
+	  const tableID = 212624; // Replace with your Baserow table ID
+	  const table = baserow.table(tableID);
+  
+	  if (!table) {
+		throw new Error("The table object is not initialized");
+	  }
+  
+	  const params = {
+		//   page: 1,
+		//   size: 100,
+		// Add other parameters as needed, e.g., search, orderBy, orderDir
+	  };
+  
+	  const response = await table.list(params);
+  
+	  if (Array.isArray(response)) {
+		SMCpeople = [];
+		peopleAllInfo = [];
+		facultyList = [];
+  
+		response.forEach((recordItem) => {
+		  const record = recordItem.record;
+		  let roles = [];
+  
+		  if (record["Role"] && Array.isArray(record["Role"])) {
+			roles = record["Role"].map((role) => role.value);
+		  }
+  
+		  const fullName = [record["First Name"], record["Last Name"]]
+			.filter(Boolean)
+			.join(" ");
+		  SMCpeople.push({ name: fullName, id: record.id });
+  
+		  const roomAccess = record["Room Access"]
+			? record["Room Access"].value
+			: null;
+		  const gearAccess = record["Gear Access"]
+			? record["Gear Access"].value
+			: null;
+  
+		  peopleAllInfo.push({
+			id: record.id,
+			name: fullName,
+			roomAccess: roomAccess,
+			gearAccess: gearAccess,
+			phoneNum: record["Phone"],
+		  });
+  
+		  if (roles.includes("Faculty/Staff 🎓")) {
+			facultyList.push({ name: fullName, id: record.id });
+		  }
+		});
+  
+		// Now you can use SMCpeople, peopleAllInfo, and facultyList as needed
+	  //   console.log(SMCpeople);
+	  //   console.log(peopleAllInfo);
+	  //   console.log(facultyList);
+	  } else {
+		throw new Error("Invalid response format: expected an array of records.");
+	  }
+	} catch (error) {
+	  console.error("Error fetching SMC People data from Baserow:", error);
+	}
+  };
+  
+  // Call the fetchPeopleData function to initiate the data retrieval
+  fetchPeopleData();
 
 const InputSection = ({ title, description, children }) => (
 	<Paper className="my-2 mx-auto p-2">
@@ -214,7 +254,7 @@ export default function Home() {
 					{nameInput}
 					{userCount > 0 && (
 						<>
-							<IframeSlide src="https://airtable.com/embed/shr7XfOauvLgRzajc" />
+							<IframeSlide src="https://baserow.io/public/calendar/Af_TFnmy4569RwnAVDp7ErFB82F3ScK5DIU1bMsySP0" />
 							{eventDetailsInput}
 							{timeInput}
 
