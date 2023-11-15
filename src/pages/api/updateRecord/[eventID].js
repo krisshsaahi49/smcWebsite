@@ -2,12 +2,11 @@ import axios from 'axios';
 
 export default async function handler(req, res) {
   if (req.method === 'PATCH') {
+    const { eventID } = req.query;
     try {
-      const { row_id, data } = req.body; // Assuming data is passed in the request body
-
       const baserowResponse = await axios.patch(
-        `https://api.baserow.io/api/database/rows/table/212626/${row_id}/?user_field_names=true`,
-        data, // data is already an object, no need to stringify
+        `https://api.baserow.io/api/database/rows/table/212626/${eventID}/?user_field_names=true`,
+        req.body,
         {
           headers: {
             'Authorization': `Token HbYQMdxStJRoUvVLyjjegU0s86MIQY9F`,
@@ -16,7 +15,6 @@ export default async function handler(req, res) {
         }
       );
 
-      // Check if the update was successful
       if (baserowResponse.status === 200) {
         res.status(200).json({ message: 'Record updated successfully', data: baserowResponse.data });
       } else {

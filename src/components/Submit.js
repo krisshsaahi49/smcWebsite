@@ -34,7 +34,7 @@ async function updateRecord(eventID, fields) {
 		headers: {
 		  'Content-Type': 'application/json',
 		},
-		body: JSON.stringify({ fields }), // Only fields need to be sent
+		body: JSON.stringify( fields ), // Only fields need to be sent
 	  });
   
 	  if (response.status === 200) {
