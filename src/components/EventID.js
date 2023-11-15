@@ -11,27 +11,33 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import base from "./airtable";
 
-function UpdateRecord(eventID) {
-  base("Events").update(
-    [
-      {
-        id: eventID,
-        fields: {
-          Status: "Canceled ⛔️",
-        },
-      },
-    ],
-    function (err, records) {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      records.forEach(function () {});
-    }
-  );
-}
+async function UpdateRecord(eventID) {
+	const url = `/api/updateRecord/${eventID}`; 
+  
+	const requestOptions = {
+	  method: 'PATCH',
+	  headers: {
+		'Content-Type': 'application/json',
+	  },
+	  body: JSON.stringify({
+		"Status": "Canceled ⛔️"
+	  })
+	};
+  
+	try {
+	  const response = await fetch(url, requestOptions);
+	  if (!response.ok) {
+		throw new Error(`HTTP error! Status: ${response.status}`);
+	  }
+	  const data = await response.json();
+	  console.log('Record updated:', data);
+	} catch (err) {
+	  console.error('Error updating record:', err);
+	  // Handle errors here
+	}
+  }
+  
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return (
@@ -57,29 +63,6 @@ export default function EventID({
   const [successMsg, setSuccessMsg] = React.useState(false);
   const [openCancelDialog, setOpenCancelDialog] = React.useState(false);
   const [openCancelSuccess, setOpenCancelSuccess] = React.useState(false);
-
-//   const fetchAllRecords = async () => {
-//     let allRecords = [];
-//     let nextUrl = "/api/getRows";
-
-//     while (nextUrl) {
-//       const response = await fetch(nextUrl, {
-//         headers: {
-//           Authorization: `Token HbYQMdxStJRoUvVLyjjegU0s86MIQY9F`,
-//         },
-//       });
-//       if (!response.ok) {
-//         throw new Error(`HTTP error! Status: ${response.status}`);
-//       }
-//       const data = await response.json();
-//       console.log("Data : ", data);
-//       allRecords = allRecords.concat(data.data.results);
-//       console.log("All Records : ", allRecords);
-//       nextUrl = data.data.next;
-//     }
-
-//     return allRecords;
-//   };
 
 const fetchAllRecords = async () => {
 	let allRecords = [];
