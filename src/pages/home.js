@@ -335,7 +335,6 @@ export default function Home() {
           {nameInput}
           {userCount > 0 && (
             <div>
-              <IframeSlide src="https://airtable.com/embed/shr7XfOauvLgRzajc" />
               <IframeSlide src="https://baserow.io/public/calendar/Af_TFnmy4569RwnAVDp7ErFB82F3ScK5DIU1bMsySP0" />
               {eventDetailsInput}
               {roomInput}
