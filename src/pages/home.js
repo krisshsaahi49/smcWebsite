@@ -289,12 +289,10 @@ export default function Home() {
 		const rooms = data.results.map((room) => ({
 		  key: room.id,
 		  name: room.Name,
-		  events: room.Events, // Adjust this if the structure is different
+		  events: room.Events, 
 		}));
   
-		// Update state based on the API route
 		if (apiRoute === "studio") {
-		  console.log("Fetched studio rooms data:", rooms);
 		  setRecordingStudioRooms(rooms);
 		} else if (apiRoute === "rehearsal") {
 		  setRehearsalRooms(rooms);
