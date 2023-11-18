@@ -4,18 +4,18 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
       const requestBody = JSON.stringify(req.body);
+      const baserowUrl = `${process.env.NEXT_BASEROW_API_URL}${process.env.BASEROW_EVENTS_TABLE_ID}/?user_field_names=true`;
+
       const baserowResponse = await axios.post(
-        'https://api.baserow.io/api/database/rows/table/212626/?user_field_names=true',
-        requestBody, // Forward the body received from the front-end
+        baserowUrl,
+        requestBody,
         {
           headers: {
-            'Authorization': `Token HbYQMdxStJRoUvVLyjjegU0s86MIQY9F`,
+            'Authorization': `Token ${process.env.NEXT_PUBLIC_BASEROW_KEY}`,
             'Content-Type': 'application/json'
           }
         }
       );
-
-      // Check if the record was created successfully
       if (baserowResponse.status === 200 || baserowResponse.status === 201) {
         res.status(200).json({ message: 'Record created successfully', data: baserowResponse.data });
       } else {
@@ -32,7 +32,6 @@ export default async function handler(req, res) {
       });
     }
   } else {
-    // Handle any non-POST requests
     res.setHeader('Allow', ['POST']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }

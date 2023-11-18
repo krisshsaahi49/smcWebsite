@@ -3,13 +3,15 @@ import axios from 'axios';
 export default async function handler(req, res) {
   if (req.method === 'PATCH') {
     const { eventID } = req.query;
+    const baserowUrl = `${process.env.NEXT_BASEROW_API_URL}${process.env.BASEROW_EVENTS_TABLE_ID}/${eventID}/?user_field_names=true`;
+
     try {
       const baserowResponse = await axios.patch(
-        `https://api.baserow.io/api/database/rows/table/212626/${eventID}/?user_field_names=true`,
+        baserowUrl,
         req.body,
         {
           headers: {
-            'Authorization': `Token HbYQMdxStJRoUvVLyjjegU0s86MIQY9F`,
+            'Authorization': `Token ${process.env.NEXT_PUBLIC_BASEROW_KEY}`,
             'Content-Type': 'application/json'
           }
         }

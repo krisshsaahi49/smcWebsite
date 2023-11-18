@@ -3,9 +3,9 @@ import axios from 'axios';
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
-      const baserowUrl = `${process.env.NEXT_BASEROW_API_URL}${process.env.BASEROW_EVENTS_TABLE_ID}/?user_field_names=true`;
+      const url = `${process.env.NEXT_BASEROW_API_URL}${process.env.BASEROW_EVENTS_TABLE_ID}/?user_field_names=true`;
 
-      const baserowResponse = await axios.get(baserowUrl, {
+      const baserowResponse = await axios.get(url, {
         headers: {
           'Authorization': `Token ${process.env.NEXT_PUBLIC_BASEROW_KEY}`
         }

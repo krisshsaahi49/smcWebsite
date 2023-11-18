@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 export default async function handler(req, res) {
-  const { page } = req.query; // Extract any query parameters you need
-  const apiUrl = `http://api.baserow.io/api/database/rows/table/212626/?page=${page}&user_field_names=true`;
+  const { page } = req.query;
+  const apiUrl = `${process.env.NEXT_BASEROW_API_URL}${process.env.BASEROW_EVENTS_TABLE_ID}/?page=${page}&user_field_names=true`;
 
   try {
     const apiResponse = await axios.get(apiUrl, {
       headers: {
-        Authorization: `Token HbYQMdxStJRoUvVLyjjegU0s86MIQY9F`, // Your API token
+        Authorization: `Token ${process.env.NEXT_PUBLIC_BASEROW_KEY}`,
       },
     });
 
