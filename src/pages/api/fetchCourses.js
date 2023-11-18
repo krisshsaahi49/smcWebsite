@@ -1,11 +1,11 @@
 export default async function handler(req, res) {
-    const BaserowUrl = "https://api.baserow.io/api/database/rows/table/212629/";
+    const BaserowUrl = `${process.env.NEXT_BASEROW_API_URL}${process.env.BASEROW_CLASSES_TABLE_ID}/`;
 
     try {
         const response = await fetch(`${BaserowUrl}?user_field_names=true`, {
             method: 'GET',
             headers: {
-                'Authorization': `Token HbYQMdxStJRoUvVLyjjegU0s86MIQY9F`
+                'Authorization': `Token ${process.env.NEXT_PUBLIC_BASEROW_KEY}`
             }
         });
 
