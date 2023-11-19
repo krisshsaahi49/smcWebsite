@@ -323,7 +323,7 @@ export default function Home() {
             Discover the Sweetwater Music Center Advantage
           </h1>
           <p className="text-white text-xl mb-8">
-            At Sweetwater, we're dedicated to empowering students and faculty at
+            At Sweetwater, we&apos;re dedicated to empowering students and faculty at
             Purdue Fort Wayne with the tools they need to excel in their
             creative endeavors. Our cutting-edge facilities are designed to
             inspire, innovate, and elevate your music and multimedia projects.
