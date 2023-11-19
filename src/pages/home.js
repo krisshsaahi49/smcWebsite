@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import baserow from "../components/baserow"
+import baserow from "../components/baserow";
 import NameInput from "../components/NameInput";
 import EventDetailsInput from "../components/EventDetailsInput";
 import RoomSelection from "../components/RoomSelection";
@@ -9,13 +9,12 @@ import CourseInput from "../components/CourseInput";
 import FormActions from "../components/FormActions";
 import EventID from "../components/EventID";
 import Submit from "../components/Submit";
+import ParallaxBackground from "../components/ParallaxBackground";
 import IframeSlide from "../components/IframeSlide";
-import HeaderWithSubtitle from "../components/HeaderWithSubtitle";
 import Collapse from "@mui/material/Collapse";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import FormLabel from "@mui/material/FormLabel";
-import { Container, Card, Row, Text } from "@nextui-org/react";
 
 let peopleAllInfo = [];
 let SMCpeople = [];
@@ -76,10 +75,6 @@ const fetchPeopleData = async () => {
         }
       });
 
-      // Now you can use SMCpeople, peopleAllInfo, and facultyList as needed
-    //   console.log(SMCpeople);
-    //   console.log(peopleAllInfo);
-    //   console.log(facultyList);
     } else {
       throw new Error("Invalid response format: expected an array of records.");
     }
@@ -90,8 +85,6 @@ const fetchPeopleData = async () => {
 
 // Call the fetchPeopleData function to initiate the data retrieval
 fetchPeopleData();
-
-
 
 const InputSection = ({ title, description, children }) => (
   <Paper className="my-2 mx-auto p-2">
@@ -108,22 +101,19 @@ const InputSection = ({ title, description, children }) => (
 );
 
 const SMCHours = () => (
-  <Container className="bg-neutral-900 text-white flex items-center justify-center">
-    <Card.Body>
-      <Text className="text-center text-2xl">SMC Hours & Availability</Text>
-      <Row className="text-xl justify-center">
-        <div className="columns-1">
-          <Text>Monday — Friday: </Text>
-          <Text>8:00 AM — Midnight</Text>
-        </div>
-        <div className="columns-2" />
-        <div className="Columns-3">
-          <Text>Saturday & Sunday: </Text>
-          <Text>12:00 PM — Midnight</Text>
-        </div>
-      </Row>
-    </Card.Body>
-  </Container>
+  <div>
+    <h2 className="text-3xl font-bold mb-4">SMC Hours & Availability</h2>
+    <div className="flex justify-center text-xl">
+      <div className="w-48 mx-4">
+        <p className="mb-2">Monday — Friday:</p>
+        <p>8:00 AM — Midnight</p>
+      </div>
+      <div className="w-48 mx-4">
+        <p className="mb-2">Saturday & Sunday:</p>
+        <p>12:00 PM — Midnight</p>
+      </div>
+    </div>
+  </div>
 );
 
 export default function Home() {
@@ -281,32 +271,32 @@ export default function Home() {
   );
 
   const fetchRoomsData = async (apiRoute) => {
-	try {
-	  const response = await fetch(`/api/${apiRoute}`);
-	  const data = await response.json();
-  
-	  if (data && data.results) {
-		const rooms = data.results.map((room) => ({
-		  key: room.id,
-		  name: room.Name,
-		  events: room.Events, 
-		}));
-  
-		if (apiRoute === "studio") {
-		  setRecordingStudioRooms(rooms);
-		} else if (apiRoute === "rehearsal") {
-		  setRehearsalRooms(rooms);
-		} else if (apiRoute === "edit_collab") {
-		  setEcRooms(rooms);
-		}
-	  } else {
-		throw new Error(
-		  "Invalid response format: expected 'results' in response."
-		);
-	  }
-	} catch (error) {
-	  console.error(`Error fetching room data from ${apiRoute}:`, error);
-	}
+    try {
+      const response = await fetch(`/api/${apiRoute}`);
+      const data = await response.json();
+
+      if (data && data.results) {
+        const rooms = data.results.map((room) => ({
+          key: room.id,
+          name: room.Name,
+          events: room.Events,
+        }));
+
+        if (apiRoute === "studio") {
+          setRecordingStudioRooms(rooms);
+        } else if (apiRoute === "rehearsal") {
+          setRehearsalRooms(rooms);
+        } else if (apiRoute === "edit_collab") {
+          setEcRooms(rooms);
+        }
+      } else {
+        throw new Error(
+          "Invalid response format: expected 'results' in response."
+        );
+      }
+    } catch (error) {
+      console.error(`Error fetching room data from ${apiRoute}:`, error);
+    }
   };
 
   useEffect(() => {
@@ -318,17 +308,77 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="text-center bg-neutral-900 min-h-screen">
-      <div className="mx-auto max-w-2xl">
-        <HeaderWithSubtitle
-          title="Schedule SMC Events"
-          subtitle="Everyone can take advantage of scheduling time in the edit &
-  collaboration spaces in the SMC building. Approved students
-  registered for certain classes have privileges to schedule time in
-  the recording studio, rehearsal room and control room."
+    <div
+      id="background-container"
+      className="text-center bg-neutral-900 min-h-screen"
+    >
+      <div className="relative min-h-screen">
+        <ParallaxBackground
+          image="/images/20210803-Sweetwater-Sign-JW-004.jpg"
+          height="100vh"
         />
-        <SMCHours />
-        {formActions}
+
+        <div className="flex flex-col justify-center items-center h-screen text-center p-4 bg-opacity-50 bg-black">
+          <h1 className="text-white text-5xl font-bold mb-6">
+            Discover the Sweetwater Music Center Advantage
+          </h1>
+          <p className="text-white text-xl mb-8">
+            At Sweetwater, we&apos;re dedicated to empowering students and faculty at
+            Purdue Fort Wayne with the tools they need to excel in their
+            creative endeavors. Our cutting-edge facilities are designed to
+            inspire, innovate, and elevate your music and multimedia projects.
+          </p>
+        </div>
+
+        <ParallaxBackground
+          image="/images/20151030-University-Singers-JW-55.jpg"
+          height="500px"
+        />
+
+        <div className="flex flex-col justify-center items-center h-screen text-center p-4 bg-opacity-50 bg-black">
+          <h1 className="text-white text-5xl font-bold mb-6">
+            Your Space, Your Choice
+          </h1>
+          <p className="text-white text-xl mb-8">
+            Explore a World of Possibilities with the SMC Booking App:
+          </p>
+          <ul className="list-disc list-inside text-white text-lg mb-8">
+            <li className="mb-4">
+              <strong>Recording Studios:</strong> Immerse yourself in the world
+              of music with our professional-grade recording studios equipped
+              with the latest technology.
+            </li>
+            <li className="mb-4">
+              <strong>Rehearsal Rooms:</strong> Fine-tune your performances in
+              our soundproof rehearsal spaces, perfect for practice and
+              creativity.
+            </li>
+            <li className="mb-4">
+              <strong>Edit & Collaboration Spaces:</strong> Fuel your creativity
+              and innovation in dedicated spaces designed for seamless teamwork
+              and collaboration.
+            </li>
+          </ul>
+        </div>
+
+        <ParallaxBackground
+          image="/images/20220915-Sweetwater-center-JW-023.jpg"
+          height="500px"
+        />
+
+        <div id="manage-events-section" className="flex flex-col justify-center items-center h-screen text-center p-4 bg-opacity-50 bg-black">
+          <h1 className="text-white text-5xl font-bold mb-6">
+            Schedule SMC Events
+          </h1>
+          <p className="text-white text-xl mb-8">
+            Everyone can take advantage of scheduling time in the edit &
+            collaboration spaces in the SMC building. Approved students
+            registered for certain classes have privileges to schedule time in
+            the recording studio, rehearsal room, and control room.
+          </p>
+          <SMCHours />
+          <div className="mt-4"> 
+          {formActions}
         <Collapse in={newEvent || (updateEvent && goodID)}>
           {nameInput}
           {userCount > 0 && (
@@ -384,6 +434,13 @@ export default function Home() {
             roomBookingRecord={roomBookingRecord}
           />
         )}
+         </div>
+        </div>
+        
+        <ParallaxBackground
+          image="/images/20180810-Sweetwater-facility-JW-041.jpg"
+          height="500px"
+        />
       </div>
     </div>
   );
