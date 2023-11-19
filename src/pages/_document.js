@@ -19,9 +19,10 @@ class MyDocument extends Document {
         <Head>{CssBaseline.flush()}</Head>
         <body>
           <NavbarCustom />
+          {/* <main className="flex-grow pt-[40px] pb-[40px]"></main> */}
           <Main />
-          <Footer />
           <NextScript />
+          <Footer />
         </body>
       </Html>
     );

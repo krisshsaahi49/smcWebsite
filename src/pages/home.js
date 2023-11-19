@@ -11,12 +11,10 @@ import EventID from "../components/EventID";
 import Submit from "../components/Submit";
 import ParallaxBackground from "../components/ParallaxBackground";
 import IframeSlide from "../components/IframeSlide";
-import HeaderWithSubtitle from "../components/HeaderWithSubtitle";
 import Collapse from "@mui/material/Collapse";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import FormLabel from "@mui/material/FormLabel";
-import { Container, Card, Row, Text } from "@nextui-org/react";
 
 let peopleAllInfo = [];
 let SMCpeople = [];
@@ -368,7 +366,7 @@ export default function Home() {
           height="500px"
         />
 
-        <div className="flex flex-col justify-center items-center h-screen text-center p-4 bg-opacity-50 bg-black">
+        <div id="manage-events-section" className="flex flex-col justify-center items-center h-screen text-center p-4 bg-opacity-50 bg-black">
           <h1 className="text-white text-5xl font-bold mb-6">
             Schedule SMC Events
           </h1>

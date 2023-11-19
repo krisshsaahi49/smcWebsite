@@ -2,8 +2,19 @@ import Link from "next/link";
 import Image from "next/image";
 
 const NavbarCustom = () => {
+
+	    const handleManageEventsClick = (event) => {
+    // Prevent default behavior of the <Link> component
+    event.preventDefault();
+
+    const manageEventsSection = document.getElementById("manage-events-section");
+    if (manageEventsSection) {
+      manageEventsSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
 	return (
-	  <nav className="bg-gradient-to-r from-blue-500 to-purple-500 py-2 fixed top-0 w-full z-50">
+	  <nav className="bg-transparent py-1 fixed top-0 w-full z-50">
 		<div className="container mx-auto flex items-center justify-between">
 		  <div>
 			<Image
@@ -16,8 +27,13 @@ const NavbarCustom = () => {
 		  </div>
 		  <ul className="flex list-none m-0 space-x-8">
 			<li>
-			  <Link href="/" className="text-white hover:text-gray-200">
+			  <Link href="/" className="text-white hover:text-gray-200" onClick={handleManageEventsClick}>
 				Home
+			  </Link>
+			</li>
+			<li>
+			  <Link href="#manage-events-section" className="text-white hover:text-gray-200" onClick={handleManageEventsClick}>   
+				Manage Events
 			  </Link>
 			</li>
 			<li>
