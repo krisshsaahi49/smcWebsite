@@ -1,11 +1,10 @@
-// components/ParallaxBackground.js
 import React, { useState, useEffect } from 'react';
 
 const ParallaxBackground = ({ image, height }) => {
   const [offsetY, setOffsetY] = useState(0);
+
   const handleScroll = () => {
-    const newOffsetY = window.pageYOffset;
-    setOffsetY(newOffsetY);
+    setOffsetY(window.pageYOffset);
   };
 
   useEffect(() => {
@@ -13,21 +12,24 @@ const ParallaxBackground = ({ image, height }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Calculate scale based on the scroll position for zoom effect
-  const scale = 1 + offsetY / 5000; // Adjust the divisor for speed of scaling
+  // Adjust the background position for parallax effect
+  const backgroundPositionY = offsetY * 0.5;
+
+  // Subtle zoom effect
+  const scale = 1 + (offsetY / 5000); // Adjust the divisor to control the zoom intensity
 
   return (
     <div 
       style={{
         backgroundImage: `url(${image})`,
         backgroundPosition: 'center',
-        backgroundPositionY: `${offsetY * 0.5}px`, // Slower scroll speed
+        backgroundPositionY: `${backgroundPositionY}px`,
         height: height,
-        backgroundSize: `${scale * 100}%`, // Adjust background size for zoom
+        backgroundSize: `${scale * 100}%`,
         backgroundRepeat: 'no-repeat',
         backgroundAttachment: 'fixed',
-        transition: 'background-position 0.7s, background-size 0.7s',
-        willChange: 'background-position, background-size', // Optimize for performance
+        transition: 'background-position 0.7s ease-out, background-size 0.7s ease-out',
+        willChange: 'background-position, background-size',
       }}
     />
   );

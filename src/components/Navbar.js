@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const NavbarCustom = () => {
 	return (
-	  <nav className="bg-gradient-to-r from-blue-500 to-purple-500 py-4 fixed top-0 w-full z-50">
+	  <nav className="bg-gradient-to-r from-blue-500 to-purple-500 py-2 fixed top-0 w-full z-50">
 		<div className="container mx-auto flex items-center justify-between">
 		  <div>
 			<Image

@@ -53,8 +53,10 @@ html, body {
 
 body {
   background: url('/images/20210803-Sweetwater-Sign-JW-004.jpg') no-repeat center center fixed;
-  background-size: cover;
+  background-size: cover; /* This will be updated by JavaScript */
+  transition: background-size 0.3s ease-out; /* Smooth transition for zoom effect */
 }
+
 
 /* Navigation Styling */
 nav {
