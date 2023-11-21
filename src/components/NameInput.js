@@ -12,7 +12,6 @@ import ListItemText from "@mui/material/ListItemText";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Divider from "@mui/material/Divider";
 import Paper from "@mui/material/Paper";
-import base from "../components/airtable"
 
 let userValues = [];
 const emojis = [
@@ -58,55 +57,6 @@ function renderItem({ item, handleRemoveName }) {
 let gearList = [];
 let lendLevel = "";
 let roomTypes;
-
-// function filterGear() {
-// 	if (userValues.some((element) => element.gearAccess === "Gear Level 4")) {
-// 		lendLevel = "Lending Level 4";
-// 	} else if (
-// 		userValues.some((element) => element.gearAccess === "Gear Level 3")
-// 	) {
-// 		lendLevel = "Lending Level 3";
-// 	} else if (
-// 		userValues.some((element) => element.gearAccess === "Gear Level 2")
-// 	) {
-// 		lendLevel = "Lending Level 2";
-// 	} else if (
-// 		userValues.some((element) => element.gearAccess === "Gear Level 1")
-// 	) {
-// 		lendLevel = "Lending Level 1";
-// 	} else {
-// 		return gearList;
-// 	}
-// 	base("Gear")
-// 		.select({
-// 			view: lendLevel,
-// 		})
-// 		.eachPage(
-// 			function page(records, fetchNextPage) {
-// 				// This function (`page`) will get called for each page of records.
-// 				console.log("LENDING LEVEL : ",lendLevel);
-// 				records.forEach(function (record) {
-// 					gearList.push({
-// 						name: record.get("Item"),
-// 						id: record.id,
-// 						eventStart: record.get("Events Start"),
-// 						eventEnd: record.get("Events End"),
-// 						eventStatus: record.get("Events Status"),
-// 						image: record.get("Image"),
-// 					});
-// 				});
-
-// 				fetchNextPage();
-// 			},
-// 			function done(err) {
-// 				if (err) {
-// 					console.error(err);
-// 				}
-// 			}
-// 		);
-// 	console.log("GEAR LIST : ",gearList)
-// 	return gearList;
-// }
 
 async function filterGear() {
 
@@ -195,23 +145,6 @@ function NameInput({
 	const [passFail, setPassFail] = React.useState(false);
 	const [value, setValue] = React.useState("");
 	const [phoneVal, setPhoneVal] = React.useState(null);
-
-	// const Initilize = useCallback(() => {
-	// 	userValues = [];
-	// 	gearList = [];
-	// 	roomTypes = [
-	// 		"Recording Studio 🎙️",
-	// 		"Rehearsal Spaces 🎧",
-	// 		"Edit & Collaboration Spaces 🎒",
-	// 	];
-	// 	setGearList(filterGear());
-	// 	setDisabledRoomTypes(filterRoomType(roomTypes));
-	// }, [setDisabledRoomTypes, setGearList]);
-
-	
-	// useEffect(() => {
-	// 	Initilize();
-	// }, [Initilize]);
 
 	const Initilize = useCallback(async () => {
 		userValues = [];
