@@ -126,7 +126,7 @@ p {
 
 /* Toolbar button styling */
 .rbc-btn-group button {
-  @apply text-gray-700 bg-transparent hover:bg-gray-200 focus:outline-none;
+  @apply text-white bg-transparent hover:bg-gray-500 focus:outline-none !important;
 }
 
 /* Month view, day cell */
