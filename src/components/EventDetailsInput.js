@@ -1,10 +1,10 @@
-import React from "react";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import React, { useEffect } from "react";
 
 export default function EventDetailsInput({
   setSessionTitle,
@@ -23,6 +23,18 @@ export default function EventDetailsInput({
     "Rehearsal 💪",
     "Audition 👨‍⚖️",
   ];
+
+  useEffect(() => {
+    setEventTypeSelected(defaultEventType);
+  }, [defaultEventType, setEventTypeSelected]);
+
+  useEffect(() => {
+    setUsageSelected(defaultEventUsage);
+  }, [defaultEventUsage, setUsageSelected]);
+
+  useEffect(() => {
+    setSessionTitle(defaultSessionTitle);
+  }, [defaultSessionTitle, setSessionTitle]);
 
   const eventUsages = ["Personal Use 👤", "Academic 🎓", "Sweetwater 🤝"];
 
