@@ -59,6 +59,7 @@ export default function EventID({
   setGoodID,
   updateEvent,
   CancelEvent,
+  fetchEventData
 }) {
   const [successMsg, setSuccessMsg] = React.useState(false);
   const [openCancelDialog, setOpenCancelDialog] = React.useState(false);
@@ -92,6 +93,7 @@ const fetchAllRecords = async () => {
       );
 
       if (record) {
+        fetchEventData(eventID);
         setIDError(false);
         setGoodID(true);
         if (updateEvent) setSuccessMsg(true);

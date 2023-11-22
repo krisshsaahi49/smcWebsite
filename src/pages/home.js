@@ -74,7 +74,6 @@ const fetchPeopleData = async () => {
           facultyList.push({ name: fullName, id: record.id });
         }
       });
-
     } else {
       throw new Error("Invalid response format: expected an array of records.");
     }
@@ -151,6 +150,24 @@ export default function Home() {
   const [recordingStudioRooms, setRecordingStudioRooms] = useState([]);
   const [rehearsalRooms, setRehearsalRooms] = useState([]);
   const [ecRooms, setEcRooms] = useState([]);
+  const [eventData, setEventData] = useState(null);
+
+  const fetchEventData = async (eventID) => {
+    try {
+      const response = await fetch(
+        `/api/events/getEventByID?eventId=${eventID}`
+      );
+      const data = await response.json();
+      console.log("EVENT DATA :",data)
+      if (response.ok) {
+        setEventData(data); // Set fetched data to state
+      } else {
+        console.error("Error fetching event data:", data);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const nameInput = (
     <InputSection
@@ -176,6 +193,9 @@ export default function Home() {
         setEventTypeSelected={setEventTypeSelected}
         setFacultySelected={setFacultySelected}
         setUsageSelected={setUsageSelected}
+        defaultSessionTitle={eventData?.['Event Name']}
+        defaultEventType={eventData?.['Event Type']?.value}
+        defaultEventUsage={eventData?.['Intent of Use']?.value}
       />
     </InputSection>
   );
@@ -266,6 +286,7 @@ export default function Home() {
         setGoodID={setGoodID}
         updateEvent={updateEvent}
         CancelEvent={CancelEvent}
+        fetchEventData={fetchEventData}
       />
     </InputSection>
   );
@@ -323,10 +344,11 @@ export default function Home() {
             Discover the Sweetwater Music Center Advantage
           </h1>
           <p className="text-white text-xl mb-8">
-            At Sweetwater, we&apos;re dedicated to empowering students and faculty at
-            Purdue Fort Wayne with the tools they need to excel in their
-            creative endeavors. Our cutting-edge facilities are designed to
-            inspire, innovate, and elevate your music and multimedia projects.
+            At Sweetwater, we&apos;re dedicated to empowering students and
+            faculty at Purdue Fort Wayne with the tools they need to excel in
+            their creative endeavors. Our cutting-edge facilities are designed
+            to inspire, innovate, and elevate your music and multimedia
+            projects.
           </p>
         </div>
 
@@ -366,7 +388,10 @@ export default function Home() {
           height="500px"
         />
 
-        <div id="manage-events-section" className="flex flex-col justify-center items-center h-screen text-center p-4 bg-opacity-50 bg-black">
+        <div
+          id="manage-events-section"
+          className="flex flex-col justify-center items-center h-screen text-center p-4 bg-opacity-50 bg-black"
+        >
           <h1 className="text-white text-5xl font-bold mb-6">
             Schedule SMC Events
           </h1>
@@ -377,66 +402,66 @@ export default function Home() {
             the recording studio, rehearsal room, and control room.
           </p>
           <SMCHours />
-          <div className="mt-4"> 
-          {formActions}
-        <Collapse in={newEvent || (updateEvent && goodID)}>
-          {nameInput}
-          {userCount > 0 && (
-            <div>
-              <IframeSlide src="https://baserow.io/public/calendar/Af_TFnmy4569RwnAVDp7ErFB82F3ScK5DIU1bMsySP0" />
-              {eventDetailsInput}
-              {roomInput}
-              {roomSelected.length !== 0 && timeInput}
-              {courseInput}
-              {timeCorrect && gearInput}
-            </div>
-          )}
-        </Collapse>
-        {(updateEvent || CancelEvent) && (
-          <Collapse in>{requestEventID}</Collapse>
-        )}
-        {userCount > 0 && (newEvent || (updateEvent && goodID)) && (
-          <Submit
-            userSelected={userSelected}
-            setUserSelected={setUserSelected}
-            sessionTitle={sessionTitle}
-            setSessionTitle={setSessionTitle}
-            eventTypeSelected={eventTypeSelected}
-            setEventTypeSelected={setEventTypeSelected}
-            facultySelected={facultySelected}
-            setFacultySelected={setFacultySelected}
-            usageSelected={usageSelected}
-            setUsageSelected={setUsageSelected}
-            roomTypeSelected={roomTypeSelected}
-            setRoomTypeSelected={setRoomTypeSelected}
-            roomSelected={roomSelected}
-            setRoomSelected={setRoomSelected}
-            startTimeSelected={startTimeSelected}
-            setStartTimeSelected={setStartTimeSelected}
-            endTimeSelected={endTimeSelected}
-            setEndTimeSelected={setEndTimeSelected}
-            courseSelected={courseSelected}
-            setCourseSelected={setCourseSelected}
-            gearSelected={gearSelected}
-            setGearSelected={setGearSelected}
-            eventID={eventID}
-            setEventID={setEventID}
-            newEvent={newEvent}
-            setNewEvent={setNewEvent}
-            updateEvent={updateEvent}
-            setUpdateEvent={setUpdateEvent}
-            CancelEvent={CancelEvent}
-            setCancelEvent={setCancelEvent}
-            setAddCourse={setAddCourse}
-            setAddGear={setAddGear}
-            setUserCount={setUserCount}
-            timeCorrect={timeCorrect}
-            roomBookingRecord={roomBookingRecord}
-          />
-        )}
-         </div>
+          <div className="mt-4">
+            {formActions}
+            <Collapse in={newEvent || (updateEvent && goodID)}>
+              {nameInput}
+              {userCount > 0 && (
+                <div>
+                  <IframeSlide src="https://baserow.io/public/calendar/Af_TFnmy4569RwnAVDp7ErFB82F3ScK5DIU1bMsySP0" />
+                  {eventDetailsInput}
+                  {roomInput}
+                  {roomSelected.length !== 0 && timeInput}
+                  {courseInput}
+                  {timeCorrect && gearInput}
+                </div>
+              )}
+            </Collapse>
+            {(updateEvent || CancelEvent) && (
+              <Collapse in>{requestEventID}</Collapse>
+            )}
+            {userCount > 0 && (newEvent || (updateEvent && goodID)) && (
+              <Submit
+                userSelected={userSelected}
+                setUserSelected={setUserSelected}
+                sessionTitle={sessionTitle}
+                setSessionTitle={setSessionTitle}
+                eventTypeSelected={eventTypeSelected}
+                setEventTypeSelected={setEventTypeSelected}
+                facultySelected={facultySelected}
+                setFacultySelected={setFacultySelected}
+                usageSelected={usageSelected}
+                setUsageSelected={setUsageSelected}
+                roomTypeSelected={roomTypeSelected}
+                setRoomTypeSelected={setRoomTypeSelected}
+                roomSelected={roomSelected}
+                setRoomSelected={setRoomSelected}
+                startTimeSelected={startTimeSelected}
+                setStartTimeSelected={setStartTimeSelected}
+                endTimeSelected={endTimeSelected}
+                setEndTimeSelected={setEndTimeSelected}
+                courseSelected={courseSelected}
+                setCourseSelected={setCourseSelected}
+                gearSelected={gearSelected}
+                setGearSelected={setGearSelected}
+                eventID={eventID}
+                setEventID={setEventID}
+                newEvent={newEvent}
+                setNewEvent={setNewEvent}
+                updateEvent={updateEvent}
+                setUpdateEvent={setUpdateEvent}
+                CancelEvent={CancelEvent}
+                setCancelEvent={setCancelEvent}
+                setAddCourse={setAddCourse}
+                setAddGear={setAddGear}
+                setUserCount={setUserCount}
+                timeCorrect={timeCorrect}
+                roomBookingRecord={roomBookingRecord}
+              />
+            )}
+          </div>
         </div>
-        
+
         <ParallaxBackground
           image="/images/20180810-Sweetwater-facility-JW-041.jpg"
           height="500px"
