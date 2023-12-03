@@ -45,9 +45,27 @@ export default function RoomSelectionInput({
     if (isUpdateMode) {
       setRoomType(initialRoomType);
       setRoom(initialRooms);
+  
+      // Update roomOptionsAllInfo based on the initialRoomType
+      if (initialRoomType === "Recording Studio 🎙️") {
+        roomOptionsAllInfo = roomOptionStudio;
+        setIsStudio(true);
+        setIsRehearsal(false);
+        setIsECspace(false);
+      } else if (initialRoomType === "Rehearsal Spaces 🎧") {
+        roomOptionsAllInfo = roomOptionRehearsal;
+        setIsStudio(false);
+        setIsRehearsal(true);
+        setIsECspace(false);
+      } else if (initialRoomType === "Edit & Collaboration Spaces 🎒") {
+        roomOptionsAllInfo = roomOptionECspace;
+        setIsStudio(false);
+        setIsRehearsal(false);
+        setIsECspace(true);
+      }
     }
   }, [initialRoomType, initialRooms, isUpdateMode]);
-
+  
   const [isStudio, setIsStudio] = React.useState(false);
   const [isRehearsal, setIsRehearsal] = React.useState(false);
   const [isECspace, setIsECspace] = React.useState(false);
@@ -60,6 +78,7 @@ export default function RoomSelectionInput({
     setRoomType(typeof value === "string" ? value.split(",") : value);
     userRoomType = value;
     setRoomTypeSelected(value);
+    setRoom([]);
 
     if (userRoomType === "Recording Studio 🎙️") {
       roomOptionsAllInfo = roomOptionStudio;
@@ -132,7 +151,6 @@ export default function RoomSelectionInput({
         })
         .catch((err) => {
           console.error(err);
-          // Handle error
         });
     }
   };
@@ -205,33 +223,6 @@ export default function RoomSelectionInput({
               ))}
             </Select>
           </FormControl>
-
-          {/* <FormControl fullWidth variant="standard">
-            <InputLabel id="event-type-label">Room Type</InputLabel>
-            <Select
-              value={roomType}
-              onChange={handleChangeRoomType}
-              renderValue={(selected) => (
-                <Box>
-                  {Array.isArray(selected)
-                    ? selected.map((value) => (
-                        <Chip key={value} label={value} />
-                      ))
-                    : null}
-                </Box>
-              )}
-            >
-              {roomTypes.map((type) => (
-                <MenuItem
-                  key={type}
-                  value={type}
-                  disabled={disabledRoomTypes.indexOf(type) > -1}
-                >
-                  {type}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl> */}
         </div>
 
         <div>
