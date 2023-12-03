@@ -31,6 +31,7 @@ export default function RoomSelectionInput({
   setRoomSelected,
   roomBookingRecord,
   setRoomBookingRecord,
+  onRoomSelectionChange,
 }) {
   const [roomType, setRoomType] = React.useState("");
   const [room, setRoom] = React.useState([]);
@@ -75,6 +76,7 @@ export default function RoomSelectionInput({
     setRoom(typeof value === "string" ? value.split(",") : value);
     userRoomSelection = value;
     setRoomSelected(value);
+    onRoomSelectionChange(roomType, value)
 
     const valueLength = value.length;
     const roomOptionsLength = roomOptionsAllInfo.length;

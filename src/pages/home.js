@@ -119,6 +119,7 @@ export default function Home() {
   const [userSelected, setUserSelected] = React.useState([]);
   const [sessionTitle, setSessionTitle] = React.useState("");
   const [eventTypeSelected, setEventTypeSelected] = React.useState([]);
+  const [roomType, setRoomType] = React.useState("");
   const [facultySelected, setFacultySelected] = React.useState([]);
   const [usageSelected, setUsageSelected] = React.useState([]);
   const [roomTypeSelected, setRoomTypeSelected] = React.useState([]);
@@ -214,6 +215,9 @@ export default function Home() {
         setRoomSelected={setRoomSelected}
         roomBookingRecord={roomBookingRecord}
         setRoomBookingRecord={setRoomBookingRecord}
+        onRoomSelectionChange={(selectedRoomType) => {
+        setRoomType(selectedRoomType.toString());
+      }}
       />
     </InputSection>
   );
@@ -457,6 +461,7 @@ export default function Home() {
                 setUserCount={setUserCount}
                 timeCorrect={timeCorrect}
                 roomBookingRecord={roomBookingRecord}
+                roomType={roomType}
               />
             )}
           </div>

@@ -70,19 +70,19 @@ export default function Schedule() {
     <div className="bg-neutral-900 flex flex-col items-center justify-center pt-[4.875rem]">
       <div className="w-full max-w-4xl px-4 py-2">
         <SectionCalendar
-          title="Ready to go on record?"
+          title="Recording Studio"
           subtitle="Please check out the calendar below before you book a slot at the Recording Studio"
           events={recordingStudioEvents}
           handleEventSelect={handleEventSelect}
         />
         <SectionCalendar
-          title="Need some practice?"
+          title="Rehearsal Room"
           subtitle="Please check out the calendar below before you book a Rehearsal Space"
           events={rehearsalSpaceEvents}
           handleEventSelect={handleEventSelect}
         />
         <SectionCalendar
-          title="Looking for space?"
+          title="Edit & Collabaration Spaces"
           subtitle="Take advantage of the edit suites and other collaboration spaces in the SMC building."
           events={editCollabSpaceEvents}
           handleEventSelect={handleEventSelect}
