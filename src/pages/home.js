@@ -159,7 +159,7 @@ export default function Home() {
         `/api/events/getEventByID?eventId=${eventID}`
       );
       const data = await response.json();
-      console.log("EVENT DATA :",data)
+      console.log("EVENT DATA :", data);
       if (response.ok) {
         setEventData(data); // Set fetched data to state
       } else {
@@ -194,9 +194,9 @@ export default function Home() {
         setEventTypeSelected={setEventTypeSelected}
         setFacultySelected={setFacultySelected}
         setUsageSelected={setUsageSelected}
-        defaultSessionTitle={eventData?.['Event Name']}
-        defaultEventType={eventData?.['Event Type']?.value}
-        defaultEventUsage={eventData?.['Intent of Use']?.value}
+        defaultSessionTitle={eventData?.["Event Name"]}
+        defaultEventType={eventData?.["Event Type"]?.value}
+        defaultEventUsage={eventData?.["Intent of Use"]?.value}
       />
     </InputSection>
   );
@@ -216,8 +216,15 @@ export default function Home() {
         roomBookingRecord={roomBookingRecord}
         setRoomBookingRecord={setRoomBookingRecord}
         onRoomSelectionChange={(selectedRoomType) => {
-        setRoomType(selectedRoomType.toString());
-      }}
+          setRoomType(selectedRoomType.toString());
+        }}
+        initialRoomType={updateEvent && eventData ? eventData["Room Type"] : ""}
+        initialRooms={
+          updateEvent && eventData
+            ? eventData["🚪 Room(s)"].map((room) => room.value)
+            : []
+        }
+        isUpdateMode={updateEvent}
       />
     </InputSection>
   );
