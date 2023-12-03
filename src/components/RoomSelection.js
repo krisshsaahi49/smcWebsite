@@ -41,30 +41,40 @@ export default function RoomSelectionInput({
     isUpdateMode && initialRooms ? initialRooms : []
   );
 
-  useEffect(() => {
-    if (isUpdateMode) {
-      setRoomType(initialRoomType);
-      setRoom(initialRooms);
-  
-      // Update roomOptionsAllInfo based on the initialRoomType
-      if (initialRoomType === "Recording Studio 🎙️") {
+  const [isInitialSetupDone, setIsInitialSetupDone] = React.useState(false);
+
+useEffect(() => {
+  if (isUpdateMode && !isInitialSetupDone) {
+    setRoomType(initialRoomType);
+    setRoom(initialRooms);
+
+    switch (initialRoomType) {
+      case "Recording Studio 🎙️":
         roomOptionsAllInfo = roomOptionStudio;
         setIsStudio(true);
         setIsRehearsal(false);
         setIsECspace(false);
-      } else if (initialRoomType === "Rehearsal Spaces 🎧") {
+        break;
+      case "Rehearsal Spaces 🎧":
         roomOptionsAllInfo = roomOptionRehearsal;
         setIsStudio(false);
         setIsRehearsal(true);
         setIsECspace(false);
-      } else if (initialRoomType === "Edit & Collaboration Spaces 🎒") {
+        break;
+      case "Edit & Collaboration Spaces 🎒":
         roomOptionsAllInfo = roomOptionECspace;
         setIsStudio(false);
         setIsRehearsal(false);
         setIsECspace(true);
-      }
+        break;
+      default:
+        // Handle default case
+        break;
     }
-  }, [initialRoomType, initialRooms, isUpdateMode]);
+
+    setIsInitialSetupDone(true);
+  }
+}, [isUpdateMode, initialRoomType, initialRooms]); // Keep these dependencies
   
   const [isStudio, setIsStudio] = React.useState(false);
   const [isRehearsal, setIsRehearsal] = React.useState(false);
@@ -74,9 +84,9 @@ export default function RoomSelectionInput({
     const {
       target: { value },
     } = event;
-    // setRoomType(event.target.value);
     setRoomType(typeof value === "string" ? value.split(",") : value);
     userRoomType = value;
+    console.log("Value : ", value)
     setRoomTypeSelected(value);
     setRoom([]);
 
@@ -108,19 +118,21 @@ export default function RoomSelectionInput({
     setRoom(typeof value === "string" ? value.split(",") : value);
     userRoomSelection = value;
     setRoomSelected(value);
+    console.log("Selected rooms : ",value)
     onRoomSelectionChange(roomType, value);
 
     const valueLength = value.length;
     const roomOptionsLength = roomOptionsAllInfo.length;
     roomSelectedAllInfo = [];
 
-    for (let i = 0; i < valueLength; i++) {
+    for (let i = 0; i < valueLength; i++) { 
       for (let x = 0; x < roomOptionsLength; x++) {
         if (roomOptionsAllInfo[x].name === value[i])
           roomSelectedAllInfo.push(roomOptionsAllInfo[x]);
       }
     }
 
+    console.log("Rooms selected :",roomSelectedAllInfo)
     const roomSelectedAllInfoLength = roomSelectedAllInfo.length;
     eventsList = [];
     let eventsListLength = 0;
