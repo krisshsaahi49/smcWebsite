@@ -23,15 +23,26 @@ const addHours = (date, hours) => {
 	return new Date(date.getTime() + hours * 60 * 60 * 1000);
 };
 
-const useTimeSelection = () => {
-	const [startDate, setStartDate] = useState(new Date());
-	const [endDate, setEndDate] = useState(new Date());
+const useTimeSelection = (initialStartTime, initialEndTime) => {
+	const [startDate, setStartDate] = useState(initialStartTime || roundToNearestHalfHour(new Date()));
+  	const [endDate, setEndDate] = useState(initialEndTime || addHours(initialStartTime || new Date(), 1));
+	// const [startDate, setStartDate] = useState(new Date());
+	// const [endDate, setEndDate] = useState(new Date());
 
 	useEffect(() => {
-		const roundedDate = roundToNearestHalfHour(new Date());
-		setStartDate(roundedDate);
-		setEndDate(addHours(roundedDate, 1));
-	}, []);
+		if (!initialStartTime && !initialEndTime) {
+		  // Set rounded current date only if initial times are not provided
+		  const roundedDate = roundToNearestHalfHour(new Date());
+		  setStartDate(roundedDate);
+		  setEndDate(addHours(roundedDate, 1));
+		}
+	  }, [initialStartTime, initialEndTime]);
+
+	// useEffect(() => {
+	// 	const roundedDate = roundToNearestHalfHour(new Date());
+	// 	setStartDate(roundedDate);
+	// 	setEndDate(addHours(roundedDate, 1));
+	// }, []);
 
 	const handleDateChange = (type, date) => {
 		if (type === "start") {
@@ -152,12 +163,15 @@ const DateTimeValidation = ({
 	roomBookingRecord,
 	gearList,
 	setFilteredGearList,
+	initialStartTime,
+	initialEndTime,
+	isUpdateMode,
 }) => {
 	const [roomUnavailable, setRoomUnavailable] = useState(false);
 	const [successMsg, setSuccessMsg] = useState(false);
 	const [unavailableRoom, setUnavailableRoom] = useState("");
-
-	const { startDate, endDate, handleDateChange } = useTimeSelection();
+	const { startDate, endDate, handleDateChange } = useTimeSelection(initialStartTime, initialEndTime);
+	// const { startDate, endDate, handleDateChange } = useTimeSelection();
 
 	const handleClose = (event, reason) => {
 		if (reason === "clickaway") {

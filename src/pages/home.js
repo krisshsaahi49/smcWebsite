@@ -241,6 +241,9 @@ export default function Home() {
         roomBookingRecord={roomBookingRecord}
         gearList={gearList}
         setFilteredGearList={setFilteredGearList}
+        initialStartTime = {eventData ? new Date(eventData["Start Time"]) : null}
+        initialEndTime = {eventData ? new Date(eventData["Proposed End Time"]) : null}
+        isUpdateMode={updateEvent}
       />
     </InputSection>
   );
