@@ -204,6 +204,10 @@ const GearCheckOut = ({
   const [filterTerm, setFilterTerm] = useState([]);
   const loading = open && options.length === 0;
 
+  [addGear, setAddGear] = useState(
+    isUpdateMode && initialGearSelected.length > 0
+  );
+
   useEffect(() => {
     if (isUpdateMode && initialGearSelected) {
       const updatedGearSelected = gearList.filter((gearItem) =>
@@ -212,6 +216,7 @@ const GearCheckOut = ({
         )
       );
       setGearSelected(updatedGearSelected);
+      setAddGear(true);
     }
   }, [isUpdateMode, initialGearSelected, gearList]);
 
