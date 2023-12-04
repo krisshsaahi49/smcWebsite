@@ -26,23 +26,14 @@ const addHours = (date, hours) => {
 const useTimeSelection = (initialStartTime, initialEndTime) => {
 	const [startDate, setStartDate] = useState(initialStartTime || roundToNearestHalfHour(new Date()));
   	const [endDate, setEndDate] = useState(initialEndTime || addHours(initialStartTime || new Date(), 1));
-	// const [startDate, setStartDate] = useState(new Date());
-	// const [endDate, setEndDate] = useState(new Date());
 
 	useEffect(() => {
 		if (!initialStartTime && !initialEndTime) {
-		  // Set rounded current date only if initial times are not provided
 		  const roundedDate = roundToNearestHalfHour(new Date());
 		  setStartDate(roundedDate);
 		  setEndDate(addHours(roundedDate, 1));
 		}
 	  }, [initialStartTime, initialEndTime]);
-
-	// useEffect(() => {
-	// 	const roundedDate = roundToNearestHalfHour(new Date());
-	// 	setStartDate(roundedDate);
-	// 	setEndDate(addHours(roundedDate, 1));
-	// }, []);
 
 	const handleDateChange = (type, date) => {
 		if (type === "start") {
@@ -171,7 +162,12 @@ const DateTimeValidation = ({
 	const [successMsg, setSuccessMsg] = useState(false);
 	const [unavailableRoom, setUnavailableRoom] = useState("");
 	const { startDate, endDate, handleDateChange } = useTimeSelection(initialStartTime, initialEndTime);
-	// const { startDate, endDate, handleDateChange } = useTimeSelection();
+
+	useEffect(() => {
+		if (isUpdateMode) {
+		  handleAvailabilityCheck();
+		}
+	  }, [isUpdateMode, startDate, endDate, roomBookingRecord]);
 
 	const handleClose = (event, reason) => {
 		if (reason === "clickaway") {

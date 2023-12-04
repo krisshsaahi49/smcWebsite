@@ -425,7 +425,7 @@ export default function Home() {
                   <IframeSlide src="https://baserow.io/public/calendar/Af_TFnmy4569RwnAVDp7ErFB82F3ScK5DIU1bMsySP0" />
                   {eventDetailsInput}
                   {roomInput}
-                  {roomSelected.length !== 0 && timeInput}
+                  {(roomSelected.length !== 0 || updateEvent) && timeInput}
                   {courseInput}
                   {timeCorrect && gearInput}
                 </div>
