@@ -159,7 +159,6 @@ export default function Home() {
         `/api/events/getEventByID?eventId=${eventID}`
       );
       const data = await response.json();
-      console.log("EVENT DATA :", data);
       if (response.ok) {
         setEventData(data); // Set fetched data to state
       } else {
@@ -268,6 +267,8 @@ export default function Home() {
         setAddGear={setAddGear}
         startTimeSelected={startTimeSelected}
         endTimeSelected={endTimeSelected}
+        initialGearSelected={updateEvent && eventData ? eventData["Gear Selection"] : []}
+        isUpdateMode={updateEvent}
       />
     </InputSection>
   );
