@@ -255,6 +255,8 @@ export default function Home() {
         setCourseSelected={setCourseSelected}
         addCourse={addCourse}
         setAddCourse={setAddCourse}
+        initialCourses={updateEvent && eventData ? eventData["Class"] : []}
+        isUpdateMode={updateEvent}
       />
     </InputSection>
   );
@@ -409,7 +411,7 @@ export default function Home() {
 
         <div
           id="manage-events-section"
-          className="flex flex-col justify-center items-center text-center p-4 bg-opacity-50 bg-black"
+          className="flex flex-col justify-center items-center min-h-screen text-center p-4 bg-opacity-50 bg-black"
         >
           <h1 className="text-white text-5xl font-bold mb-6">
             Schedule SMC Events
