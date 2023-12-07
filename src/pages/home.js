@@ -240,8 +240,10 @@ export default function Home() {
         roomBookingRecord={roomBookingRecord}
         gearList={gearList}
         setFilteredGearList={setFilteredGearList}
-        initialStartTime = {eventData ? new Date(eventData["Start Time"]) : null}
-        initialEndTime = {eventData ? new Date(eventData["Proposed End Time"]) : null}
+        initialStartTime={eventData ? new Date(eventData["Start Time"]) : null}
+        initialEndTime={
+          eventData ? new Date(eventData["Proposed End Time"]) : null
+        }
         isUpdateMode={updateEvent}
       />
     </InputSection>
@@ -267,7 +269,9 @@ export default function Home() {
         setAddGear={setAddGear}
         startTimeSelected={startTimeSelected}
         endTimeSelected={endTimeSelected}
-        initialGearSelected={updateEvent && eventData ? eventData["Gear Selection"] : []}
+        initialGearSelected={
+          updateEvent && eventData ? eventData["Gear Selection"] : []
+        }
         isUpdateMode={updateEvent}
       />
     </InputSection>
@@ -405,7 +409,7 @@ export default function Home() {
 
         <div
           id="manage-events-section"
-          className="flex flex-col justify-center items-center h-screen text-center p-4 bg-opacity-50 bg-black"
+          className="flex flex-col justify-center items-center text-center p-4 bg-opacity-50 bg-black"
         >
           <h1 className="text-white text-5xl font-bold mb-6">
             Schedule SMC Events
