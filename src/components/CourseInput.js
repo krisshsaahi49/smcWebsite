@@ -16,7 +16,6 @@ const fetchCourses = async () => {
     return data.results.map((record) => {
       let displayText = record.Name;
 
-      // Check if "Week Day(s)" array is not empty before accessing its value
       if (record["Week Day(s)"] && record["Week Day(s)"].length > 0) {
         displayText += `, ${record["Week Day(s)"][0].value}`;
       }
@@ -42,33 +41,28 @@ const CourseSelectionInput = ({
   isUpdateMode,
 }) => {
   const [courses, setCourses] = useState([]);
-  const [debugSelectedCourses, setDebugSelectedCourses] = useState(); // Temporary state for debugging
-
+  
   useEffect(() => {
-    console.log('Initial Courses prop:', initialCourses); // Log the initialCourses prop
-
+    
     const fetchData = async () => {
       const data = await fetchCourses();
-      console.log('Fetched Courses:', data); // Log the fetched courses
-
       setCourses(data);
-
-      if (isUpdateMode && initialCourses) {
+  
+      if (isUpdateMode && initialCourses && data.length > 0) {
         const selectedCourses = data.filter(course =>
           initialCourses.some(initialCourse => initialCourse.id === course.key)
-        );
-
-        console.log('Filtered Selected Courses:', selectedCourses); // Log the filtered selected courses
-
-        // setCourseSelected(selectedCourses);
-        setDebugSelectedCourses(selectedCourses); // Set the temporary state for debugging
-        setAddCourse(selectedCourses.length > 0);
+        );  
+          
+        setCourseSelected(selectedCourses);
+        setAddCourse(selectedCourses.length > 0); 
+      } else {
+        setAddCourse(true);
       }
     };
-
+  
     fetchData();
-  }, [isUpdateMode, initialCourses]);
-
+  }, [isUpdateMode, initialCourses, isUpdateMode, setCourseSelected, setAddCourse]);
+  
 
   const handleCourseAssignmentChange = (event) => {
     setAddCourse(event.target.checked);
@@ -76,7 +70,6 @@ const CourseSelectionInput = ({
 
   const handleCourseSelectionChange = (event, newCourses) => {
     setCourseSelected(newCourses);
-    // setDebugSelectedCourses(newCourses)
   };
 
   const renderOption = (props, option, { selected }) => {
@@ -105,9 +98,6 @@ const CourseSelectionInput = ({
     />
   );
 
-  console.log("CourseSelected state:", courseSelected);
-  console.log("Debug SelectedCourses state:", debugSelectedCourses);
-
   return (
     <Stack>
       <FormControlLabel
@@ -124,8 +114,8 @@ const CourseSelectionInput = ({
           <Autocomplete
             multiple
             disableCloseOnSelect
-            value={debugSelectedCourses}
-            onChange={handleCourseSelectionChange}
+            value={courseSelected}
+            onChange={handleCourseSelectionChange} 
             id="Search-for-course"
             options={courses}
             getOptionLabel={(option) => option.name}

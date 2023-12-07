@@ -255,6 +255,7 @@ export default function Home() {
         setCourseSelected={setCourseSelected}
         addCourse={addCourse}
         setAddCourse={setAddCourse}
+        courseSelected={courseSelected}
         initialCourses={updateEvent && eventData ? eventData["Class"] : []}
         isUpdateMode={updateEvent}
       />
