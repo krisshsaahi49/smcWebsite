@@ -10,110 +10,123 @@ import Stack from "@mui/material/Stack";
 import { Text } from "@nextui-org/react";
 
 const fetchCourses = async () => {
-    try {
-        const response = await fetch('/api/fetchCourses');
-        const data = await response.json();
-        return data.results.map(record => {
-            let displayText = record.Name;
+  try {
+    const response = await fetch("/api/fetchCourses");
+    const data = await response.json();
+    return data.results.map((record) => {
+      let displayText = record.Name;
 
-            // Check if "Week Day(s)" array is not empty before accessing its value
-            if (record["Week Day(s)"] && record["Week Day(s)"].length > 0) {
-                displayText += `, ${record["Week Day(s)"][0].value}`;
-            }
+      if (record["Week Day(s)"] && record["Week Day(s)"].length > 0) {
+        displayText += `, ${record["Week Day(s)"][0].value}`;
+      }
 
-            if (record["Meeting Time"]) {
-                displayText += `, ${record["Meeting Time"]}`;
-            }
+      if (record["Meeting Time"]) {
+        displayText += `, ${record["Meeting Time"]}`;
+      }
 
-            return { key: record.id, name: displayText };
-        });
-    } catch (error) {
-        console.error('Error fetching courses:', error);
-        return [];
-    }
+      return { key: record.id, name: displayText };
+    });
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    return [];
+  }
 };
 
 const CourseSelectionInput = ({
-	courseSelected,
-	setCourseSelected,
-	addCourse,
-	setAddCourse,
-  }) => {
-	const [courses, setCourses] = useState([]);
+  courseSelected,
+  setCourseSelected,
+  addCourse,
+  setAddCourse,
+  initialCourses,
+  isUpdateMode,
+}) => {
+  const [courses, setCourses] = useState([]);
   
-	useEffect(() => {
-	  const fetchData = async () => {
-		const data = await fetchCourses();
-		setCourses(data);
-	  };
+  useEffect(() => {
+    
+    const fetchData = async () => {
+      const data = await fetchCourses();
+      setCourses(data);
   
-	  fetchData();
-	}, []);
+      if (isUpdateMode && initialCourses && data.length > 0) {
+        const selectedCourses = data.filter(course =>
+          initialCourses.some(initialCourse => initialCourse.id === course.key)
+        );  
+          
+        setCourseSelected(selectedCourses);
+        setAddCourse(selectedCourses.length > 0); 
+      } else {
+        setAddCourse(true);
+      }
+    };
   
-	const handleCourseAssignmentChange = (event) => {
-	  setAddCourse(event.target.checked);
-	};
+    fetchData();
+  }, [isUpdateMode, initialCourses, isUpdateMode, setCourseSelected, setAddCourse]);
   
-	const handleCourseSelectionChange = (event, newCourses) => {
-	  setCourseSelected(newCourses);
-	};
-  
-	const renderOption = (props, option, { selected }) => {
-	  const uncheckedIcon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-	  const checkedIcon = <CheckBoxIcon fontSize="small" />;
-  
-	  return (
-		<li {...props}>
-		  <Checkbox
-			icon={uncheckedIcon}
-			checkedIcon={checkedIcon}
-			checked={selected}
-		  />
-		  <Text>{option.name}</Text>
-		</li>
-	  );
-	};
-  
-	const renderInput = (params) => (
-	  <TextField
-		className="w-full"
-		{...params}
-		variant="standard"
-		label="Select course(s)"
-		fullWidth
-	  />
-	);
-  
-	return (
-	  <Stack>
-		<FormControlLabel
-		  control={
-			<Checkbox
-			  checked={addCourse}
-			  onChange={handleCourseAssignmentChange}
-			/>
-		  }
-		  label={<Text>Is this time slot for a course assignment?</Text>}
-		/>
-  
-		{addCourse && (
-		  <FormControl variant="standard" className="w-full">
-			<Autocomplete
-			  multiple
-			  disableCloseOnSelect
-			  value={courseSelected}
-			  onChange={handleCourseSelectionChange}
-			  id="Search-for-course"
-			  options={courses}
-			  getOptionLabel={({ name }) => name}
-			  renderOption={renderOption}
-			  renderInput={renderInput}
-			/>
-		  </FormControl>
-		)}
-	  </Stack>
-	);
+
+  const handleCourseAssignmentChange = (event) => {
+    setAddCourse(event.target.checked);
   };
-  
-  export default CourseSelectionInput;
-  
+
+  const handleCourseSelectionChange = (event, newCourses) => {
+    setCourseSelected(newCourses);
+  };
+
+  const renderOption = (props, option, { selected }) => {
+    const uncheckedIcon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+    const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
+    return (
+      <li {...props}>
+        <Checkbox
+          icon={uncheckedIcon}
+          checkedIcon={checkedIcon}
+          checked={selected}
+        />
+        <Text>{option.name}</Text>
+      </li>
+    );
+  };
+
+  const renderInput = (params) => (
+    <TextField
+      className="w-full"
+      {...params}
+      variant="standard"
+      label="Select course(s)"
+      fullWidth
+    />
+  );
+
+  return (
+    <Stack>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={addCourse}
+            onChange={handleCourseAssignmentChange}
+          />
+        }
+        label={<Text>Is this time slot for a course assignment?</Text>}
+      />
+      {addCourse && (
+        <FormControl variant="standard" className="w-full">
+          <Autocomplete
+            multiple
+            disableCloseOnSelect
+            value={courseSelected}
+            onChange={handleCourseSelectionChange} 
+            id="Search-for-course"
+            options={courses}
+            getOptionLabel={(option) => option.name}
+            isOptionEqualToValue={(option, value) => option.key === value.key}
+            renderOption={renderOption}
+            renderInput={renderInput}
+          />
+        </FormControl>
+      )}
+    </Stack>
+  );
+};
+
+export default CourseSelectionInput;

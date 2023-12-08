@@ -2,7 +2,7 @@ import React from "react";
 
 function IframeSlideComponent({ src }) {
 	return (
-		<div className="bg-neutral-900 text-white flex items-center justify-center p-6">
+		<div className="bg-neutral-900 text-white flex items-center justify-center p-6 bg-transparent">
 			<div className="w-full max-w-2xl mx-auto">
 				<div className="relative" style={{
 					paddingTop: "56.25%",

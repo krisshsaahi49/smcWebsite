@@ -3,25 +3,151 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --accent-color: #ff385c; /* Vibrant accent color */
+  --dark-bg: #121212; /* Dark background for the music vibe */
+  --dark-text: #e0e0e0; /* Light text for readability */
+  --nav-hover-color: #ff758c; /* Lighter shade of accent color for hover state */
+  --navbar-bg: rgba(18, 18, 18, 0.85); /* Slightly transparent dark background for navbar */
+  --link-transition: color 0.25s ease-in-out; /* Smooth transition for link states */
+  --font-sans: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Sleek, modern font */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+  font-family: var(--font-sans);
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  /* background: url('/images/20210803-Sweetwater-Sign-JW-004.jpg') no-repeat center center fixed; */
+  background-size: cover; /* This will be updated by JavaScript */
+  transition: background-size 0.3s ease-out; /* Smooth transition for zoom effect */
+}
+
+
+/* Navigation Styling */
+nav {
+  background-color: var(--navbar-bg);
+  padding: 1rem 0;
+  backdrop-filter: saturate(180%) blur(20px);
+}
+
+nav a {
+  color: var(--dark-text);
+  padding: 0.5rem 1rem;
+  transition: var(--link-transition);
+  border-bottom: 2px solid transparent; /* Add an underline effect */
+}
+
+nav a:hover, nav a:focus {
+  color: var(--nav-hover-color);
+  border-bottom-color: var(--accent-color); /* Change underline color on hover */
+  text-decoration: none;
+}
+
+/* Typography */
+h1, h2, h3, p {
+  line-height: 1.5;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 900; /* More weight for the title */
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+  color: var(--accent-color); /* Use accent color for the main title */
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Layout */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 1rem;
+  text-align: center; /* Center align the text for better focus on content */
+}
+
+/* globals.css */
+.text-white {
+  color: var(--dark-text);
+}
+
+.text-5xl {
+  font-size: 3rem; /* Adjust the actual font size based on your design */
+  /* Other styles */
+}
+
+.font-bold {
+  font-weight: 700;
+  /* Other styles */
+}
+
+
+/* Calendar container styling */
+.rbc-calendar {
+  @apply bg-gray-100;
+}
+
+/* Header row */
+.rbc-header {
+  @apply bg-gray-200 text-gray-700 font-semibold;
+}
+
+/* Current day styling */
+.rbc-today {
+  @apply bg-blue-100;
+}
+
+/* Events styling */
+.rbc-event {
+  @apply bg-blue-500 text-white rounded-md;
+}
+
+/* Toolbar button styling */
+.rbc-btn-group button {
+  @apply text-white bg-transparent hover:bg-gray-500 focus:outline-none !important;
+}
+
+/* Month view, day cell */
+.rbc-month-view .rbc-day-bg {
+  @apply bg-white;
+}
+
+/* Active date cell */
+.rbc-month-view .rbc-day-bg .rbc-selected-cell {
+  @apply bg-blue-500 text-white;
+}
+
+/* Toolbar and button styling */
+.rbc-toolbar {
+  @apply flex justify-between mb-4 p-2 bg-gray-800 text-white rounded-t-lg;
+}
+
+.rbc-toolbar label {
+  @apply text-lg text-gray-300;
+}
+
+.rbc-toolbar button {
+  @apply text-white hover:text-blue-200 focus:outline-none;
 }

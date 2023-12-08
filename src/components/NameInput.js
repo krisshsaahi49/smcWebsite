@@ -12,7 +12,6 @@ import ListItemText from "@mui/material/ListItemText";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Divider from "@mui/material/Divider";
 import Paper from "@mui/material/Paper";
-import base from "../components/airtable"
 
 let userValues = [];
 const emojis = [
@@ -59,55 +58,6 @@ let gearList = [];
 let lendLevel = "";
 let roomTypes;
 
-// function filterGear() {
-// 	if (userValues.some((element) => element.gearAccess === "Gear Level 4")) {
-// 		lendLevel = "Lending Level 4";
-// 	} else if (
-// 		userValues.some((element) => element.gearAccess === "Gear Level 3")
-// 	) {
-// 		lendLevel = "Lending Level 3";
-// 	} else if (
-// 		userValues.some((element) => element.gearAccess === "Gear Level 2")
-// 	) {
-// 		lendLevel = "Lending Level 2";
-// 	} else if (
-// 		userValues.some((element) => element.gearAccess === "Gear Level 1")
-// 	) {
-// 		lendLevel = "Lending Level 1";
-// 	} else {
-// 		return gearList;
-// 	}
-// 	base("Gear")
-// 		.select({
-// 			view: lendLevel,
-// 		})
-// 		.eachPage(
-// 			function page(records, fetchNextPage) {
-// 				// This function (`page`) will get called for each page of records.
-// 				console.log("LENDING LEVEL : ",lendLevel);
-// 				records.forEach(function (record) {
-// 					gearList.push({
-// 						name: record.get("Item"),
-// 						id: record.id,
-// 						eventStart: record.get("Events Start"),
-// 						eventEnd: record.get("Events End"),
-// 						eventStatus: record.get("Events Status"),
-// 						image: record.get("Image"),
-// 					});
-// 				});
-
-// 				fetchNextPage();
-// 			},
-// 			function done(err) {
-// 				if (err) {
-// 					console.error(err);
-// 				}
-// 			}
-// 		);
-// 	console.log("GEAR LIST : ",gearList)
-// 	return gearList;
-// }
-
 async function filterGear() {
 
 	if (userValues.some((element) => element.gearAccess === "Gear Level 4")) {
@@ -139,7 +89,6 @@ async function filterGear() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-		console.log(data);
         gearList = data.results.map(item => ({
             id: item.id,
             name: item['Item Description'],
@@ -150,12 +99,6 @@ async function filterGear() {
             image: item.Image && item.Image[0] && item.Image[0].url,
             // ... include other fields you need
         }));
-		console.log("GEAR LIST : ",gearList)
-		if (Array.isArray(gearList)) {
-			console.log("gearList is an array.");
-		} else {
-			console.log("gearList is not an array.");
-		}
         return gearList;
     } catch (error) {
         console.error('Error fetching gear list:', error);
@@ -195,23 +138,6 @@ function NameInput({
 	const [passFail, setPassFail] = React.useState(false);
 	const [value, setValue] = React.useState("");
 	const [phoneVal, setPhoneVal] = React.useState(null);
-
-	// const Initilize = useCallback(() => {
-	// 	userValues = [];
-	// 	gearList = [];
-	// 	roomTypes = [
-	// 		"Recording Studio 🎙️",
-	// 		"Rehearsal Spaces 🎧",
-	// 		"Edit & Collaboration Spaces 🎒",
-	// 	];
-	// 	setGearList(filterGear());
-	// 	setDisabledRoomTypes(filterRoomType(roomTypes));
-	// }, [setDisabledRoomTypes, setGearList]);
-
-	
-	// useEffect(() => {
-	// 	Initilize();
-	// }, [Initilize]);
 
 	const Initilize = useCallback(async () => {
 		userValues = [];
@@ -295,10 +221,8 @@ function NameInput({
 					handleClose();
 					userValues.push(newValue);
 					userNameList.push(newValue.name);
-					console.log('CHECK : ',newValue.name);
 					setUserCount(userNameList.length);
 					setUserSelected(userValues);
-					console.log('USER VALUES : ',userValues);
 					setDisabledRoomTypes(filterRoomType(roomTypes));
 					updateGearList();
 
@@ -318,7 +242,7 @@ function NameInput({
 	};
 
 	return (
-		<div>
+		<div className="bg-transparent">
 			<div className="flex justify-center my-2">
 				<Button bordered shadow color="warning" auto onPress={handleClickOpen}>
 					ADD
