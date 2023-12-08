@@ -151,3 +151,15 @@ p {
 .rbc-toolbar button {
   @apply text-white hover:text-blue-200 focus:outline-none;
 }
+
+
+/* globals.css */
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; } /* Ensure this is 1 instead of 100 for proper CSS */
+}
+
+@keyframes scaleUpModal {
+  from { transform: scale(0.5); }
+  to { transform: scale(1); }
+}

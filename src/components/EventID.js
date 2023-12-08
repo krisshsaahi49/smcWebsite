@@ -13,30 +13,29 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
 async function UpdateRecord(eventID) {
-	const url = `/api/updateRecord/${eventID}`; 
-  
-	const requestOptions = {
-	  method: 'PATCH',
-	  headers: {
-		'Content-Type': 'application/json',
-	  },
-	  body: JSON.stringify({
-		"Status": "Canceled ⛔️"
-	  })
-	};
-  
-	try {
-	  const response = await fetch(url, requestOptions);
-	  if (!response.ok) {
-		throw new Error(`HTTP error! Status: ${response.status}`);
-	  }
-	  const data = await response.json();
-	} catch (err) {
-	  console.error('Error updating record:', err);
-	  // Handle errors here
-	}
+  const url = `/api/updateRecord/${eventID}`;
+
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      Status: "Canceled ⛔️",
+    }),
+  };
+
+  try {
+    const response = await fetch(url, requestOptions);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+  } catch (err) {
+    console.error("Error updating record:", err);
+    // Handle errors here
   }
-  
+}
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return (
@@ -58,29 +57,29 @@ export default function EventID({
   setGoodID,
   updateEvent,
   CancelEvent,
-  fetchEventData
+  fetchEventData,
 }) {
   const [successMsg, setSuccessMsg] = React.useState(false);
   const [openCancelDialog, setOpenCancelDialog] = React.useState(false);
   const [openCancelSuccess, setOpenCancelSuccess] = React.useState(false);
 
-const fetchAllRecords = async () => {
-	let allRecords = [];
-	let nextPage = 1; // Start with page 1
-  
-	while (nextPage) {
-	  const response = await fetch(`/api/proxy?page=${nextPage}`);
-	  if (!response.ok) {
-		throw new Error(`HTTP error! Status: ${response.status}`);
-	  }
-  
-	  const data = await response.json();
-	  allRecords = allRecords.concat(data.results);
-	  nextPage = data.next ? nextPage + 1 : null; // Update nextPage, or set to null to end loop
-	}
-  
-	return allRecords;
-  };  
+  const fetchAllRecords = async () => {
+    let allRecords = [];
+    let nextPage = 1; // Start with page 1
+
+    while (nextPage) {
+      const response = await fetch(`/api/proxy?page=${nextPage}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      allRecords = allRecords.concat(data.results);
+      nextPage = data.next ? nextPage + 1 : null; // Update nextPage, or set to null to end loop
+    }
+
+    return allRecords;
+  };
 
   const handleCheckID = async () => {
     try {
@@ -169,23 +168,67 @@ const fetchAllRecords = async () => {
     </Dialog>
   );
 
+  // const succesCancellation = (
+  //   <Modal
+  //     open={openCancelSuccess}
+  //     onClose={handleCloseCancelSubmission}
+  //     aria-labelledby="modal-modal-title"
+  //     aria-describedby="modal-modal-description"
+  //     sx={{
+  //       display: 'flex',
+  //       alignItems: 'center',
+  //       justifyContent: 'center'
+  //     }}
+  //   >
+  //     <Box
+  //       sx={{
+  //         position: 'absolute',
+  //         top: '50%',
+  //         left: '50%',
+  //         transform: 'translate(-50%, -50%)',
+  //         width: 400,
+  //         bgcolor: 'background.paper',
+  //         boxShadow: 24,
+  //         p: 4, 
+  //         borderRadius: 2,
+  //       }}
+  //     >
+  //       <Typography id="modal-modal-title" variant="h6" component="h2">
+  //         Cancellation Successful!
+  //       </Typography>
+  //       <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+  //         Please check your inbox for the confirmation.
+  //       </Typography>
+  //     </Box>
+  //   </Modal>
+  // );
+
   const succesCancellation = (
     <Modal
       open={openCancelSuccess}
       onClose={handleCloseCancelSubmission}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      className="flex items-center justify-center p-4 overflow-x-hidden overflow-y-auto fixed inset-0 z-150 outline-none focus:outline-none"
     >
-      <Box>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
+      <Box
+        className="relative w-auto my-6 mx-auto max-w-3xl transition duration-500 ease-in-out transform opacity-0 scale-50
+                   bg-gray-700 bg-opacity-100 shadow-2xl
+                   rounded-xl p-6 text-center align-middle transition-all"
+        style={{
+          animation: 'fadeInModal 0.5s forwards, scaleUpModal 0.5s forwards'
+        }}
+      >
+        <Typography id="modal-modal-title" variant="h6" component="h2" className="text-xl font-bold text-white mb-3">
           Cancellation Successful!
         </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+        <Typography id="modal-modal-description" className="text-lg text-gray-300">
           Please check your inbox for the confirmation.
         </Typography>
       </Box>
     </Modal>
   );
+  
 
   return (
     <Box className="m-auto flex flex-col items-center justify-center">
