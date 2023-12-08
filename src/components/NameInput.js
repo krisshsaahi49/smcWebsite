@@ -242,7 +242,7 @@ function NameInput({
 	};
 
 	return (
-		<div>
+		<div className="bg-transparent">
 			<div className="flex justify-center my-2">
 				<Button bordered shadow color="warning" auto onPress={handleClickOpen}>
 					ADD

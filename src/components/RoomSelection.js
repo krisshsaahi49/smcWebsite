@@ -218,7 +218,7 @@ useEffect(() => {
   );
 
   return (
-    <div>
+    <div className="bg-transparent">
       <Stack>
         <div>
           <FormControl fullWidth variant="standard">

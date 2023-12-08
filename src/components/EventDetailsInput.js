@@ -58,7 +58,7 @@ export default function EventDetailsInput({
   };
 
   return (
-    <div>
+    <div className="bg-transparent">
       <Stack>
         <TextField
           variant="standard"

@@ -86,11 +86,11 @@ const fetchPeopleData = async () => {
 fetchPeopleData();
 
 const InputSection = ({ title, description, children }) => (
-  <Paper className="my-2 mx-auto p-2">
-    <Box className="text-center m-2 text-xl">{title}</Box>
+  <Paper className="mt-10 my-2 mx-auto p-2 bg-transparent">
+    <Box className="text-center m-2 text-xl bg-transparent">{title}</Box>
     {description && (
-      <Box className="text-sm">
-        <FormLabel component="legend" className="ml-4">
+      <Box className="text-sm bg-transparent">
+        <FormLabel component="legend" className="ml-4 bg-transparent">
           {description}
         </FormLabel>
       </Box>

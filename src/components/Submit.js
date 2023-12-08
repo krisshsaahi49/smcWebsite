@@ -113,7 +113,7 @@ export default function Submit({
 	};
 
 	return (
-		<div className="flex flex-col items-center justify-center gap-4">
+		<div className="mt-10 mb-10 flex flex-col items-center justify-center gap-4 bg-transparent">
 			<NextButton
 				shadow
 				color="warning"

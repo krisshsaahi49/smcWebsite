@@ -67,7 +67,7 @@ export default function Schedule() {
   // ... (Modal component remains unchanged)
 
   return (
-    <div className="bg-neutral-900 flex flex-col items-center justify-center pt-[4.875rem]">
+    <div className="bg-neutral-900 flex flex-col items-center justify-center pt-[4.875rem] bg-transparent">
       <div className="w-full max-w-4xl px-4 py-2">
         <SectionCalendar
           title="Recording Studio"
