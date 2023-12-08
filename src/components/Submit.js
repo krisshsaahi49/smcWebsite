@@ -52,6 +52,7 @@ export default function Submit({
 	sessionTitle,
 	eventTypeSelected,
 	roomType,
+	roomTypeSelected,
 	facultySelected,
 	usageSelected,
 	roomSelected,
@@ -83,7 +84,7 @@ export default function Submit({
 			"Event Name": sessionTitle,
 			"Start Time": startTimeSelected,
 			"Proposed End Time": endTimeSelected,
-			"Room Type": roomType,
+			"Room Type": roomTypeSelected,
 			"🚪 Room(s)": roomSelected,
 			Class: courses,
 			"Event Type": eventTypeSelected,
@@ -100,8 +101,6 @@ export default function Submit({
 		} else if (updateEvent) {
 			await updateRecord(eventID, fields);
 		}
-		console.log("Fields object:", fields);
-
 	};
 
 	const handleClose = () => {

@@ -122,7 +122,7 @@ export default function Home() {
   const [roomType, setRoomType] = React.useState("");
   const [facultySelected, setFacultySelected] = React.useState([]);
   const [usageSelected, setUsageSelected] = React.useState([]);
-  const [roomTypeSelected, setRoomTypeSelected] = React.useState([]);
+  const [roomTypeSelected, setRoomTypeSelected] = React.useState("");
   const [roomSelected, setRoomSelected] = React.useState([]);
   const [startTimeSelected, setStartTimeSelected] = React.useState("");
   const [endTimeSelected, setEndTimeSelected] = React.useState("");
@@ -152,6 +152,10 @@ export default function Home() {
   const [rehearsalRooms, setRehearsalRooms] = useState([]);
   const [ecRooms, setEcRooms] = useState([]);
   const [eventData, setEventData] = useState(null);
+
+  const handleRoomTypeChange = (newRoomType) => {
+    setRoomTypeSelected(newRoomType); // Updating roomTypeSelected, not roomType
+};
 
   const fetchEventData = async (eventID) => {
     try {
@@ -210,13 +214,13 @@ export default function Home() {
         roomOptionRehearsal={rehearsalRooms}
         roomOptionECspace={ecRooms}
         disabledRoomTypes={disabledRoomTypes}
-        setRoomTypeSelected={setRoomTypeSelected}
-        setRoomSelected={setRoomSelected}
+        onRoomTypeChange={setRoomTypeSelected}
+        onRoomSelectionChange={setRoomSelected}
         roomBookingRecord={roomBookingRecord}
         setRoomBookingRecord={setRoomBookingRecord}
-        onRoomSelectionChange={(selectedRoomType) => {
-          setRoomType(selectedRoomType.toString());
-        }}
+        // onRoomSelectionChange={(selectedRoomType) => {
+        //   setRoomType(selectedRoomType.toString());
+        // }}
         initialRoomType={updateEvent && eventData ? eventData["Room Type"] : ""}
         initialRooms={
           updateEvent && eventData

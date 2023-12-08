@@ -27,10 +27,9 @@ export default function RoomSelectionInput({
   roomOptionRehearsal,
   roomOptionECspace,
   disabledRoomTypes,
-  setRoomTypeSelected,
-  setRoomSelected,
   roomBookingRecord,
   setRoomBookingRecord,
+  onRoomTypeChange,
   onRoomSelectionChange,
   initialRoomType,
   initialRooms,
@@ -75,6 +74,14 @@ useEffect(() => {
     setIsInitialSetupDone(true);
   }
 }, [isUpdateMode, initialRoomType, initialRooms]); // Keep these dependencies
+
+useEffect(() => {
+  onRoomTypeChange(roomType);
+}, [roomType, onRoomTypeChange]);
+
+useEffect(() => {
+  onRoomSelectionChange(room);
+}, [room, onRoomSelectionChange]);
   
   const [isStudio, setIsStudio] = React.useState(false);
   const [isRehearsal, setIsRehearsal] = React.useState(false);
@@ -84,10 +91,10 @@ useEffect(() => {
     const {
       target: { value },
     } = event;
-    setRoomType(typeof value === "string" ? value.split(",") : value);
+    // setRoomType(typeof value === "string" ? value.split(",") : value);
+    setRoomType(value);
     userRoomType = value;
-    console.log("Value : ", value)
-    setRoomTypeSelected(value);
+    onRoomTypeChange(value);
     setRoom([]);
 
     if (userRoomType === "Recording Studio 🎙️") {
@@ -95,19 +102,19 @@ useEffect(() => {
       setIsStudio(true);
       setIsRehearsal(false);
       setIsECspace(false);
-      setRoom([]); // Clear user input
+      setRoom([]);
     } else if (userRoomType === "Rehearsal Spaces 🎧") {
       roomOptionsAllInfo = roomOptionRehearsal;
       setIsStudio(false);
       setIsRehearsal(true);
       setIsECspace(false);
-      setRoom([]); // Clear user input
+      setRoom([]);
     } else if (userRoomType === "Edit & Collaboration Spaces 🎒") {
       roomOptionsAllInfo = roomOptionECspace;
       setIsStudio(false);
       setIsRehearsal(false);
       setIsECspace(true);
-      setRoom([]); // Clear user input
+      setRoom([]);
     }
   };
 
@@ -117,9 +124,7 @@ useEffect(() => {
     } = event;
     setRoom(typeof value === "string" ? value.split(",") : value);
     userRoomSelection = value;
-    setRoomSelected(value);
-    console.log("Selected rooms : ",value)
-    onRoomSelectionChange(roomType, value);
+    onRoomSelectionChange(value);
 
     const valueLength = value.length;
     const roomOptionsLength = roomOptionsAllInfo.length;
@@ -132,7 +137,6 @@ useEffect(() => {
       }
     }
 
-    console.log("Rooms selected :",roomSelectedAllInfo)
     const roomSelectedAllInfoLength = roomSelectedAllInfo.length;
     eventsList = [];
     let eventsListLength = 0;
@@ -175,7 +179,7 @@ useEffect(() => {
   const handleDelete = (e, value) => {
     e.preventDefault();
     setRoom((current) => current.filter((item) => item !== value));
-    setRoomSelected((current) => current.filter((item) => item !== value));
+    onRoomSelectionChange((current) => current.filter((item) => item !== value));
   };
 
   const roomSelection = (label, roomOptions) => (

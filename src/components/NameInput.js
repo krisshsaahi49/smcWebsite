@@ -89,7 +89,6 @@ async function filterGear() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-		console.log(data);
         gearList = data.results.map(item => ({
             id: item.id,
             name: item['Item Description'],
@@ -100,12 +99,6 @@ async function filterGear() {
             image: item.Image && item.Image[0] && item.Image[0].url,
             // ... include other fields you need
         }));
-		console.log("GEAR LIST : ",gearList)
-		if (Array.isArray(gearList)) {
-			console.log("gearList is an array.");
-		} else {
-			console.log("gearList is not an array.");
-		}
         return gearList;
     } catch (error) {
         console.error('Error fetching gear list:', error);
@@ -228,10 +221,8 @@ function NameInput({
 					handleClose();
 					userValues.push(newValue);
 					userNameList.push(newValue.name);
-					console.log('CHECK : ',newValue.name);
 					setUserCount(userNameList.length);
 					setUserSelected(userValues);
-					console.log('USER VALUES : ',userValues);
 					setDisabledRoomTypes(filterRoomType(roomTypes));
 					updateGearList();
 

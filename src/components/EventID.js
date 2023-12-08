@@ -31,7 +31,6 @@ async function UpdateRecord(eventID) {
 		throw new Error(`HTTP error! Status: ${response.status}`);
 	  }
 	  const data = await response.json();
-	  console.log('Record updated:', data);
 	} catch (err) {
 	  console.error('Error updating record:', err);
 	  // Handle errors here
@@ -76,9 +75,7 @@ const fetchAllRecords = async () => {
 	  }
   
 	  const data = await response.json();
-	  console.log("Data : ", data);
 	  allRecords = allRecords.concat(data.results);
-	  console.log("All Records : ", allRecords);
 	  nextPage = data.next ? nextPage + 1 : null; // Update nextPage, or set to null to end loop
 	}
   
