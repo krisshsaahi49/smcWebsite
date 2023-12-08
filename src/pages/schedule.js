@@ -13,7 +13,7 @@ export default function Schedule() {
   const [rehearsalSpaceEvents, setRehearsalSpaceEvents] = useState([]);
   const [editCollabSpaceEvents, setEditCollabSpaceEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
-
+  const [dataObject, setDataObject] = useState({});
   // Function to fetch events from a specific API endpoint
   const fetchEvents = async (apiRoute) => {
     let allRecords = [];
@@ -26,19 +26,21 @@ export default function Schedule() {
       }
 
       const data = await response.json();
+      setDataObject(data);
       allRecords = allRecords.concat(
         data.results.map((event) => ({
-			id: event.id,
-			title: event["Event Name"],
-			eventType: event["Event Type"]?.value || "N/A",
-			rooms:
-			  event["🚪 Room(s)"]?.map((room) => room.value).join(", ") || "N/A",
-			class: event["Class"]?.map((c) => c.value).join(", ") || "N/A",
-			start: new Date(event["Start Time"]),
-			end: new Date(event["Proposed End Time"]),
-			status: event["Status"]?.value || "N/A",
-			location:
-			  event["Location"]?.map((loc) => loc.value).join(", ") || "N/A",
+          id: event.id,
+          title: event["Event Name"],
+          eventType: event["Event Type"]?.value || "N/A",
+          rooms:
+            event["🚪 Room(s)"]?.map((room) => room.value).join(", ") || "N/A",
+          class: event["Class"]?.map((c) => c.value).join(", ") || "N/A",
+          start: new Date(event["Start Time"]),
+          end: new Date(event["Proposed End Time"]),
+          status: event["Status"]?.value || "N/A",
+          location:
+            event["Location"]?.map((loc) => loc.value).join(", ") || "N/A",
+          roomType: event['Room Type']
         }))
       );
       nextPage = data.next ? nextPage + 1 : null;
@@ -74,21 +76,24 @@ export default function Schedule() {
           subtitle="Please check out the calendar below before you book a slot at the Recording Studio"
           events={recordingStudioEvents}
           handleEventSelect={handleEventSelect}
+          data={dataObject}
         />
         <SectionCalendar
           title="Rehearsal Room"
           subtitle="Please check out the calendar below before you book a Rehearsal Space"
           events={rehearsalSpaceEvents}
           handleEventSelect={handleEventSelect}
+          data={dataObject}
         />
         <SectionCalendar
           title="Edit & Collabaration Spaces"
           subtitle="Take advantage of the edit suites and other collaboration spaces in the SMC building."
           events={editCollabSpaceEvents}
           handleEventSelect={handleEventSelect}
+          data={dataObject}
         />
-         {/* Modal for displaying event details */}
-		 <Modal
+        {/* Modal for displaying event details */}
+        <Modal
           open={!!selectedEvent}
           onClose={closeModal}
           aria-labelledby="event-details-title"
@@ -176,17 +181,56 @@ export default function Schedule() {
   );
 }
 
-// Helper component for rendering each calendar section
-function SectionCalendar({ title, subtitle, events, handleEventSelect }) {
+function SectionCalendar({ title, subtitle, events, handleEventSelect, data }) {
+
+  const getEventStyle = (event) => {
+    const roomTypeColorMapping = {
+      "Recording Studio 🎙️": "blue",
+      "Rehearsal Spaces 🎧": "green",
+      "Edit & Collaboration Spaces 🎒": "red",
+    };
+
+    let roomType = event.roomType; 
+    console.log(roomType);
+  
+    let backgroundColor = roomTypeColorMapping[roomType] || 'grey';
+    // console.log(backgroundColor);
+  
+    return {
+      style: {
+        backgroundColor,
+        overflow: 'hidden',
+        padding: '2px 5px',
+        maxHeight: '100%',
+        borderRadius: '0',
+      }
+    };
+  };
+  
+
+
+
+  const CustomEvent = ({ event }) => {
+    const backgroundColor = getEventStyle(event).style.backgroundColor;
+    return (
+      <div style={{ backgroundColor, overflow: 'hidden', padding: '2px 5px' }}>
+        {event.title}
+      </div>
+    );
+  };
   return (
     <>
       <HeaderWithSubtitle title={title} subtitle={subtitle} />
       <Calendar
+        components={{
+          event: CustomEvent
+        }}
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"
         onSelectEvent={handleEventSelect}
+        eventPropGetter={getEventStyle}
         className="rounded-lg shadow-lg overflow-hidden my-4 bg-white text-gray-700"
         style={{ height: 600, marginBottom: 30 }}
       />
